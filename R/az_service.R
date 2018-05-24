@@ -59,17 +59,28 @@ public=list(
     start=function()
     {
         private$app$do_operation(http_verb="POST", "start")
+        invisible(NULL)
     },
 
     stop=function()
     {
         private$app$do_operation(http_verb="POST", "stop")
+        invisible(NULL)
     },
 
     get_rec_endpoint=function(key=self$storage_key, sas=NULL)
     {
         stor_endp <- private$storage$get_blob_endpoint(key=self$storage_key, sas=sas)
-        az_rec_endpoint$new(self$url, self$admin_key, self$rec_key, storage_endpoint=stor_endp)
+        rec_endpoint$new(self$url, self$admin_key, self$rec_key, storage_endpoint=stor_endp)
+    },
+
+    print=function(...)
+    {
+        cat("<Azure product recommendations service ", self$name, ">\n", sep="")
+        cat(AzureRMR::format_public_fields(self,
+            exclude=c("subscription", "resource_group", "name", "id", "properties")))
+        cat(AzureRMR::format_public_methods(self))
+        invisible(NULL)
     }
 ),
 

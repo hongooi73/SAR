@@ -1,5 +1,5 @@
 #' @export
-az_rec_model <- R6Class("az_rec_model",
+rec_model <- R6Class("rec_model",
 
 public=list(
     service_url=NULL,
@@ -149,7 +149,6 @@ public=list(
 
     print=function(...)
     {
-        cat("Azure product recommendations model\n")
         cat("Description:", self$description, "\n")
         cat("Endpoint:", self$get_model_url(), "\n")
         cat("Creation time:", format(self$creation_time, usetz=TRUE), "\n")

@@ -1,5 +1,5 @@
 #' @export
-az_rec_endpoint <- R6Class("az_rec_endpoint",
+rec_endpoint <- R6Class("rec_endpoint",
 
 public=list(
     url=NULL,
@@ -60,8 +60,8 @@ public=list(
     get_model=function(description, id)
     {
         if(missing(id))
-            id <- private$get_model_by_desc(description)
-        az_rec_model$new(self$url, self$admin_key, self$rec_key, id=id)
+            id <- private$get_id_by_desc(description)
+        rec_model$new(self$url, self$admin_key, self$rec_key, id=id)
     },
 
     train_model=function(description, container=NULL, usage_data=NULL, catalog_data=NULL, eval_data=NULL,
@@ -90,13 +90,23 @@ public=list(
             decayPeriodInDays=half_life,
             enableUserToItemRecommendations=user_to_items)
 
-        res <- az_rec_model$new(self$url, self$admin_key, self$rec_key, parms=parms)
+        res <- rec_model$new(self$url, self$admin_key, self$rec_key, parms=parms)
         self$sync_model_list()
         res
     },
 
     delete_model=function(description, id, confirm=TRUE)
     {
+        if(missing(description))
+            description <- private$get_desc_by_id(id)
+            
+        if(confirm && interactive())
+        {
+            yn <- readline(paste0("Do you really want to delete model '", description, "'? (y/N) "))
+            if(tolower(substr(yn, 1, 1)) != "y")
+                return(invisible(NULL))
+        }
+        message("Deleting model '", description, "'")
         self$get_model(description, id)$delete(confirm=confirm)
     },
 
@@ -123,12 +133,29 @@ public=list(
     delete_data=function(data, container="inputdata", confirm=TRUE)
     {
         self$storage %>% blob_container(container) %>% delete_blob(data, confirm=confirm)
+    },
+
+    print=function(...)
+    {
+        cat("Product recommendations service endpoint\n")
+        cat("Service URL:", self$get_service_url(), "\n")
+        cat("Swagger URL:", self$get_swagger_url(), "\n")
+        cat("Admin key:", if(is_empty(self$admin_key)) "<not supplied>\n" else "<hidden>\n")
+        cat("Recommender key:", if(is_empty(self$rec_key)) "<not supplied>\n" else "<hidden>\n")
+        cat("---\n")
+        cat("Models:\n")
+        print(self$models)
+        cat("---\n")
+        print(self$storage)
+        cat("\n---\n")
+        cat(AzureRMR::format_public_methods(self))
+        invisible(NULL)
     }
 ),
 
 private=list(
 
-    get_model_by_desc=function(description)
+    get_id_by_desc=function(description)
     {
         match <- which(description == self$models$description)
         if(length(match) == 0)
@@ -136,6 +163,16 @@ private=list(
         else if(length(match) > 1)
             stop("More than one model with description '", description, "'", call.=FALSE)
         self$models$id[match]
+    },
+
+    get_desc_by_id=function(id)
+    {
+        match <- which(id == self$models$id)
+        if(length(match) == 0)
+            stop("No model found with ID '", id, "'", call.=FALSE)
+        else if(length(match) > 1)
+            stop("More than one model with ID '", id, "'", call.=FALSE)
+        self$models$description[match]
     }
 ))
 
