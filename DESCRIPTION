@@ -1,0 +1,31 @@
+Package: SAR
+Title: Smart Adaptive Recommendations
+Version: 0.0.1
+Authors@R: c(
+    person("Hong", "Ooi", , "hongooi@microsoft.com", role = c("aut", "cre")),
+    person("Daniel", "Ciborowski", , "dciborow@microsoft.com", role = "aut"),
+    person("MMLSpark Team", role = "ctb"),
+    person("Microsoft", role="cph")
+    )
+Description: SAR is a fast, scalable, adaptive algorithm for personalized recommendations based on user transactions and items description. It produces easily explainable/interpretable recommendations and handles "cold item" and "semi-cold user" scenarios. This package provides two implementations of SAR: a standalone implementation, and an interface to a web service in Azure. The former allows fast and easy experimentation, and the latter provides robust scalability and extra features for production use.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: 
+    R (>= 3.3)
+Imports: 
+    AzureRMR,
+    AzureStor,
+    dplyr (>= 0.7),
+    Matrix,
+    httr,
+    jsonlite,
+    R6,
+    parallel,
+    Rcpp (>= 0.12),
+    RcppParallel
+LinkingTo: Rcpp,
+    RcppArmadillo,
+    RcppParallel
+SystemRequirements: GNU make
+Roxygen: list(markdown=TRUE)
+RoxygenNote: 6.0.1
