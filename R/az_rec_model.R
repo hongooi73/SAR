@@ -9,18 +9,34 @@ public=list(
     description=NULL,
     creation_time=NULL,
     status=NULL,
+    status_message=NULL,
     parameters=NULL,
     stats=NULL,
 
     initialize=function(service_url, admin_key, rec_key, id, ..., parms=list(...))
     {
-        self$service_url <- url
+        self$service_url <- service_url
         self$admin_key <- admin_key
         self$rec_key <- rec_key
 
         if(is_empty(parms))
-            private$get_model(description, id)
-        else private$train_model(description, id, parms)
+        {
+            self$id <- id
+            parms <- private$get_model()
+            self$description <- parms$description
+        }
+        else
+        {
+            self$description <- parms$description
+            parms <- private$train_model(parms)
+            self$id <- parms$id
+        }
+
+        self$creation_time <- as.POSIXct(parms$creationTime, format="%Y-%m-%dT%H:%M:%OS", tz="GMT")
+        self$status <- parms$modelStatus
+        self$status_message <- parms$modelStatusMessage
+        self$parameters <- parms$parameters
+        self$stats <- parms$statistics
     },
 
     delete=function(confirm=TRUE)
@@ -64,7 +80,7 @@ public=list(
             if(userid_provided)
                 options <- c(options, userId=users[i])
 
-            private$model_op("recommend", body=body, encode="json", options=options,
+            private$model_op("recommend", body=data_i, encode="json", options=options,
                              key=self$rec_key,
                              http_verb="POST")
         })
@@ -100,8 +116,7 @@ public=list(
 
         item <- unique(item)
         n_items <- length(item)
-        result <- vector("list", n_items)
-        lapply(seq_len(n_items), function(i)
+        result <- lapply(seq_len(n_items), function(i)
         {
             options <- list(itemId=item[i], recommendationCount=k)
             private$model_op("recommend", options=options, key=self$rec_key)
@@ -132,22 +147,22 @@ public=list(
         paste0(self$service_url, "/api/models/", self$id)
     },
 
-    print=function(x, ...)
+    print=function(...)
     {
-        cat("SAR model from Azure App Service\n")
-        cat("Name:", x$description, "\n")
-        cat("Id:", x$id, "\n")
-        cat("Creation time:", x$creationTime, "\n")
-        cat("Status:", x$modelStatus, "\n")
+        cat("Azure product recommendations model\n")
+        cat("Description:", self$description, "\n")
+        cat("Endpoint:", self$get_model_url(), "\n")
+        cat("Creation time:", format(self$creation_time, usetz=TRUE), "\n")
+        cat("Status:", self$status, "\n")
 
-        parms <- x$parameters
+        parms <- self$parameters
         class(parms) <- "simple.list"
         cat("\nModel training parameters:\n")
         print(parms, ...)
 
-        if(!is.null(x$statistics))
+        if(!is.null(self$stats))
         {
-            stats <- x$statistics
+            stats <- self$stats
             stats <- list("Training duration"=stats$trainingDuration,
                           "Total duration"=stats$totalDuration,
                           "Included events"=stats$usageEventsParsing$successfulLinesCount,
@@ -159,7 +174,7 @@ public=list(
             cat("\nTraining statistics:\n")
             print(stats)
 
-            ev <- x$statistics$evaluation
+            ev <- stats$evaluation
             if(!is.null(ev))
             {
                 evalstats <- list("Evaluation duration"=ev$duration,
@@ -175,60 +190,6 @@ public=list(
                 class(divstats) <- "simple.list"
                 cat("\nDiversity metrics:\n")
                 print(divstats)
-                print=function(x, ...)
-                {
-                    cat("SAR model from Azure App Service\n")
-                    cat("Name:", x$description, "\n")
-                    cat("Id:", x$id, "\n")
-                    cat("Creation time:", x$creationTime, "\n")
-                    cat("Status:", x$modelStatus, "\n")
-
-                    parms <- x$parameters
-                    class(parms) <- "simple.list"
-                    cat("\nModel training parameters:\n")
-                    print(parms, ...)
-
-                    if(!is.null(x$statistics))
-                    {
-                        stats <- x$statistics
-                        stats <- list("Training duration"=stats$trainingDuration,
-                          "Total duration"=stats$totalDuration,
-                          "Included events"=stats$usageEventsParsing$successfulLinesCount,
-                          "Total events"=stats$usageEventsParsingtotalLinesCount,
-                          "Item count"=stats$numberOfUsageItems,
-                          "User count"=stats$numberOfUsers
-                        )
-                        class(stats) <- "simple.list"
-                        cat("\nTraining statistics:\n")
-                        print(stats)
-
-                        ev <- x$statistics$evaluation
-                        if(!is.null(ev))
-                        {
-                            evalstats <- list("Evaluation duration"=ev$duration,
-                                  "Total evaluation events"=ev$usageEventsParsing$totalLinesCount,
-                                  "Included evaluation events"=ev$usageEventsParsing$successfulLinesCount)
-                            class(evalstats) <- "simple.list"
-                            cat("\nEvaluation statistics:\n")
-                            print(evalstats)
-
-                            divstats <- list("Total items recommended"=ev$metrics$diversityMetrics$totalItemsRecommended,
-                                 "Unique items recommended"=ev$metrics$diversityMetrics$uniqueItemsRecommended,
-                                 "Unique items in training set"=ev$metrics$diversityMetrics$uniqueItemsInTrainSet)
-                            class(divstats) <- "simple.list"
-                            cat("\nDiversity metrics:\n")
-                            print(divstats)
-                            cat("\n")
-                            div <- as.data.frame(dplyr::bind_rows(ev$metrics$diversityMetrics$percentileBuckets))
-                            print(div)
-
-                            cat("\nPrecision metrics:\n")
-                            prec <- as.data.frame(dplyr::bind_rows(ev$metrics$precisionMetrics))
-                            print(prec)
-                        }
-                    }
-                    invisible(x)
-                }
                 cat("\n")
                 div <- as.data.frame(dplyr::bind_rows(ev$metrics$diversityMetrics$percentileBuckets))
                 print(div)
@@ -238,7 +199,7 @@ public=list(
                 print(prec)
             }
         }
-        invisible(x)
+        invisible(NULL)
     }
 ),
 
@@ -256,15 +217,20 @@ private=list(
     },
 
     model_op=function(op="", ..., options=list(), headers=list(), 
-                      key=self$admin_key, http_verb="GET")
+                      key=self$admin_key,
+                      http_verb=c("GET", "PUT", "POST", "DELETE", "HEAD"))
     {
         url <- httr::parse_url(self$get_model_url())
         url$path <- paste0(url$path, "/", op)
         url$query <- options
         headers <- httr::add_headers("x-api-key"=key, .headers=unlist(headers))
+
+        # call recommender service backend
         verb <- get(match.arg(http_verb), getNamespace("httr"))
-        verb(url, ..., headers)
-        httr::content(verb)
+
+        cont <- verb(url, ..., headers)
+        httr::stop_for_status(cont)
+        httr::content(cont)
     }
 ))
 

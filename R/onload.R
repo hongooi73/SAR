@@ -5,9 +5,9 @@
     RcppParallel::setThreadOptions(numThreads=nt)
 
     AzureRMR::az_resource_group$set("public", "create_rec_service", overwrite=TRUE,
-                                    function(name, ...)
+                                    function(name, ..., wait=TRUE)
     {
-        az_rec_service$new(self$token, self$subscription, self$name, name, ...)
+        az_rec_service$new(self$token, self$subscription, self$name, name, ..., wait=wait)
     })
 
     AzureRMR::az_resource_group$set("public", "get_rec_service", overwrite=TRUE,

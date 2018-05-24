@@ -11,11 +11,13 @@ public=list(
                         hosting_plan,
                         storage_type=c("Standard_LRS", "Standard_GRS"),
                         insights_location=c("East US", "North Europe", "West Europe", "South Central US"),
+                        default_container="inputdata",
                         ..., wait=TRUE)
     {
         # if no parameters were supplied, we want to retrieve an existing app
         existing_app <- missing(storage_type) && missing(hosting_plan) &&
-                        missing(insights_location) && is_empty(list(...)) && missing(wait)
+                        missing(insights_location) && missing(default_container) &&
+                        is_empty(list(...)) && missing(wait)
 
         if(!existing_app) # we want to deploy
         {
@@ -51,7 +53,7 @@ public=list(
         # create default blobcontainer for datasets
         if(!existing_app)
             private$storage$get_blob_endpoint() %>%
-                create_blob_container("inputdata", public_access="none")
+                create_blob_container(default_container, public_access="none")
     },
 
     start=function()

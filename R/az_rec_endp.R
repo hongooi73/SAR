@@ -34,6 +34,7 @@ public=list(
         else stopifnot(inherits(storage_endpoint, "blob_endpoint"))
         self$storage <- storage_endpoint
 
+        self$sync_model_list()
         invisible(NULL)
     },
 
@@ -59,7 +60,7 @@ public=list(
     get_model=function(description, id)
     {
         if(missing(id))
-            id <- get_model_by_desc(description)
+            id <- private$get_model_by_desc(description)
         az_rec_model$new(self$url, self$admin_key, self$rec_key, id=id)
     },
 
@@ -119,7 +120,7 @@ public=list(
         self$storage %>% blob_container(container) %>% list_blobs()
     },
 
-    delete_data=function(container, data, confirm=TRUE)
+    delete_data=function(data, container="inputdata", confirm=TRUE)
     {
         self$storage %>% blob_container(container) %>% delete_blob(data, confirm=confirm)
     }
