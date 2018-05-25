@@ -13,7 +13,7 @@ public=list(
     parameters=NULL,
     stats=NULL,
 
-    initialize=function(service_url, admin_key, rec_key, id, ..., parms=list(...))
+    initialize=function(service_url, admin_key, rec_key, id, ..., parms=list(...), wait=TRUE)
     {
         self$service_url <- service_url
         self$admin_key <- admin_key
@@ -28,8 +28,7 @@ public=list(
         else
         {
             self$description <- parms$description
-            parms <- private$train_model(parms)
-            self$id <- parms$id
+            parms <- private$train_model(parms, wait=wait)
         }
 
         self$creation_time <- as.POSIXct(parms$creationTime, format="%Y-%m-%dT%H:%M:%OS", tz="GMT")
@@ -41,6 +40,13 @@ public=list(
 
     delete=function(confirm=TRUE)
     {
+        if(confirm && interactive())
+        {
+            yn <- readline(paste0("Do you really want to delete model '", self$description, "'? (y/N) "))
+            if(tolower(substr(yn, 1, 1)) != "y")
+                return(invisible(NULL))
+        }
+        message("Deleting model '", self$description, "'")
         private$model_op(http_verb="DELETE")
     },
 
@@ -209,10 +215,28 @@ private=list(
         private$model_op()
     },
 
-    train_model=function(parms)
+    train_model=function(parms, wait)
     {
         fit_args <- parms[!sapply(parms, is.null)]
-        private$model_op(body=fit_args, encode="json", http_verb="POST")
+        res <- private$model_op(body=fit_args, encode="json", http_verb="POST")
+        self$id <- res$id
+
+        if(wait)
+        {
+            for(i in 1:1000)
+            {
+                message(".", appendLF=FALSE)
+                status <- res$modelStatus
+                if(status == "Completed")
+                    break
+                Sys.sleep(5)
+                res <- private$model_op()
+            }
+            if(status != "Completed")
+                warning("\nTimed out waiting for model training to complete")
+            else message("\n")
+        }
+        res
     },
 
     model_op=function(op="", ..., options=list(), headers=list(), 

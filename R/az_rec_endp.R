@@ -8,10 +8,11 @@ public=list(
     name=NULL,
     storage=NULL,
     models=NULL,
+    data_container=NULL,
 
     initialize=function(name, admin_key, rec_key, service_host="azurewebsites.net",
                         storage_key=NULL, storage_sas=NULL, storage_host="core.windows.net",
-                        storage_endpoint=NULL)
+                        storage_endpoint=NULL, data_container="inputdata")
     {
         if(is_url(name))
         {
@@ -33,6 +34,7 @@ public=list(
         }
         else stopifnot(inherits(storage_endpoint, "blob_endpoint"))
         self$storage <- storage_endpoint
+        self$data_container <- data_container
 
         self$sync_model_list()
         invisible(NULL)
@@ -67,7 +69,7 @@ public=list(
     train_model=function(description, container=NULL, usage_data=NULL, catalog_data=NULL, eval_data=NULL,
                          support_threshold=NULL, cooccurrence=NULL, similarity=NULL,
                          cold_items=NULL, cold_to_cold=NULL, user_affinity=NULL, backfill=NULL, include_seed_items=NULL,
-                         half_life=NULL, user_to_items=NULL)
+                         half_life=NULL, user_to_items=NULL, wait=TRUE)
     {
         if(description %in% self$models$description)
             stop("Model already exists with description '", description, "'", call.=FALSE)
@@ -90,27 +92,18 @@ public=list(
             decayPeriodInDays=half_life,
             enableUserToItemRecommendations=user_to_items)
 
-        res <- rec_model$new(self$url, self$admin_key, self$rec_key, parms=parms)
+        res <- rec_model$new(self$url, self$admin_key, self$rec_key, parms=parms, wait=wait)
         self$sync_model_list()
         res
     },
 
     delete_model=function(description, id, confirm=TRUE)
     {
-        if(missing(description))
-            description <- private$get_desc_by_id(id)
-            
-        if(confirm && interactive())
-        {
-            yn <- readline(paste0("Do you really want to delete model '", description, "'? (y/N) "))
-            if(tolower(substr(yn, 1, 1)) != "y")
-                return(invisible(NULL))
-        }
-        message("Deleting model '", description, "'")
         self$get_model(description, id)$delete(confirm=confirm)
+        invisible(self$sync_model_list())
     },
 
-    upload_data=function(data, destfile, container=dirname(destfile))
+    upload_data=function(data, destfile, container=self$data_container)
     {
         f <- tempfile(fileext=".csv")
         on.exit(file.remove(f))
@@ -118,19 +111,17 @@ public=list(
         self$upload_csv(f, destfile, container)
     },
 
-    upload_csv=function(srcfile, destfile=basename(srcfile), container=dirname(destfile))
+    upload_csv=function(srcfile, destfile=basename(srcfile), container=self$data_container)
     {
-        if(missing(container) || container == ".")
-            container <- "inputdata"
         self$storage %>% blob_container(container) %>% upload_blob(srcfile, destfile)
     },
 
-    list_data=function(container="inputdata")
+    list_data=function(container=self$data_container)
     {
         self$storage %>% blob_container(container) %>% list_blobs()
     },
 
-    delete_data=function(data, container="inputdata", confirm=TRUE)
+    delete_data=function(data, container=self$data_container, confirm=TRUE)
     {
         self$storage %>% blob_container(container) %>% delete_blob(data, confirm=confirm)
     },

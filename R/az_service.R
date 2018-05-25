@@ -6,17 +6,18 @@ public=list(
     admin_key=NULL,
     rec_key=NULL,
     storage_key=NULL,
+    data_container=NULL,
 
     initialize=function(token, subscription, resource_group, name,
                         hosting_plan,
                         storage_type=c("Standard_LRS", "Standard_GRS"),
                         insights_location=c("East US", "North Europe", "West Europe", "South Central US"),
-                        default_container="inputdata",
+                        data_container="inputdata",
                         ..., wait=TRUE)
     {
         # if no parameters were supplied, we want to retrieve an existing app
         existing_app <- missing(storage_type) && missing(hosting_plan) &&
-                        missing(insights_location) && missing(default_container) &&
+                        missing(insights_location) && missing(data_container) &&
                         is_empty(list(...)) && missing(wait)
 
         if(!existing_app) # we want to deploy
@@ -41,6 +42,7 @@ public=list(
         self$rec_key <- outputs$recommendPrimaryKey$value
         self$storage_key <- sub("^AccountKey=", "",
             strsplit(outputs$storageConnectionString$value, ";")[[1]][3])
+        self$data_container <- data_container
 
         # get the storage account and webapp
         outputs <- unlist(self$properties$outputResources)
@@ -53,7 +55,7 @@ public=list(
         # create default blobcontainer for datasets
         if(!existing_app)
             private$storage$get_blob_endpoint() %>%
-                create_blob_container(default_container, public_access="none")
+                create_blob_container(data_container, public_access="none")
     },
 
     start=function()
@@ -71,7 +73,8 @@ public=list(
     get_rec_endpoint=function(key=self$storage_key, sas=NULL)
     {
         stor_endp <- private$storage$get_blob_endpoint(key=self$storage_key, sas=sas)
-        rec_endpoint$new(self$url, self$admin_key, self$rec_key, storage_endpoint=stor_endp)
+        rec_endpoint$new(self$url, self$admin_key, self$rec_key,
+                         storage_endpoint=stor_endp, data_container=self$data_container)
     },
 
     print=function(...)
