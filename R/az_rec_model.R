@@ -50,7 +50,7 @@ public=list(
         private$model_op(http_verb="DELETE")
     },
 
-    user_predict=function(userdata=NULL, k=10, raw_output=FALSE)
+    user_predict=function(userdata=NULL, k=10)
     {
         # assume userdata in fixed format
         if(is.data.frame(userdata))
@@ -90,8 +90,6 @@ public=list(
                              key=self$rec_key,
                              http_verb="POST")
         })
-        if(raw_output)
-            return(result)
 
         # pad out number of recommendations for each user with NAs, if we are short
         result <- lapply(result, function(row)
@@ -113,7 +111,7 @@ public=list(
         as.data.frame(result)
     },
 
-    item_predict=function(item=NULL, k=10, raw_output=FALSE)
+    item_predict=function(item=NULL, k=10)
     {
         if(is.null(item))
             stop("Must provide item IDs to get recommendations for", call.=FALSE)
@@ -127,8 +125,6 @@ public=list(
             options <- list(itemId=item[i], recommendationCount=k)
             private$model_op("recommend", options=options, key=self$rec_key)
         })
-        if(raw_output)
-            return(result)
 
         # pad out number of recommendations for each user with NAs, if we are short
         result <- lapply(result, function(row)
@@ -234,7 +230,7 @@ private=list(
             }
             if(status != "Completed")
                 warning("\nTimed out waiting for model training to complete")
-            else message("\n")
+            else message("\nTraining complete")
         }
         res
     },
