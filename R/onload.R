@@ -55,7 +55,7 @@
         }
         else mode <- "Incremental"
 
-        res <- try(az_rec_service$new(self$token, self$id, resource_group, name, location, ..., mode=mode))
+        res <- try(az_rec_service$new(self$token, self$id, resource_group, name, ..., mode=mode))
         if(inherits(res, "try-error") && mode == "Complete")
             return(self$delete_resource_group(resource_group, confirm=FALSE))
         res

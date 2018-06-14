@@ -66,10 +66,11 @@ public=list(
         rec_model$new(self$url, self$admin_key, self$rec_key, id=id)
     },
 
-    train_model=function(description, container=NULL, usage_data=NULL, catalog_data=NULL, eval_data=NULL,
+    train_model=function(description,
+                         usage_data=NULL, catalog_data=NULL, eval_data=NULL,
                          support_threshold=NULL, cooccurrence=NULL, similarity=NULL,
                          cold_items=NULL, cold_to_cold=NULL, user_affinity=NULL, backfill=NULL, include_seed_items=NULL,
-                         half_life=NULL, user_to_items=NULL, wait=TRUE)
+                         half_life=NULL, user_to_items=NULL, wait=TRUE, container=self$data_container)
     {
         if(description %in% self$models$description)
             stop("Model already exists with description '", description, "'", call.=FALSE)
