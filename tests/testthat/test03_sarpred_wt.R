@@ -1,6 +1,6 @@
 context("SAR weighted prediction")
 
-datapath <- "../../../../msft-recommendation/src/test/resources"
+datapath <- "../resources"
 ms_usage <- read.csv(file.path(datapath, "demoUsage.csv"), stringsAsFactors=FALSE)
 names(ms_usage) <- c("user", "item", "time")
 ms_usage$time <- as.POSIXct(ms_usage$time, tz="UTC", format="%Y/%m/%dT%H:%M:%S")
