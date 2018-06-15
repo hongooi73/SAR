@@ -1,8 +1,6 @@
 .onLoad <- function(libname, pkgname)
 {
-    nc <- parallel::detectCores()
-    nt <- as.integer(max(1, nc/2))
-    RcppParallel::setThreadOptions(numThreads=nt)
+    set_sar_threads()
 
     ## add class methods to resource group
 

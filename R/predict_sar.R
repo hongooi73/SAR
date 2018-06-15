@@ -13,13 +13,18 @@
 #'
 #' In SAR, the first step in obtaining personalised recommendations is to compute a user-to-item affinity matrix \eqn{A}. This is essentially a weighted crosstabulation with one row per unique user ID and one column per item ID. The cells in the crosstab are given by the formula
 #' \deqn{sum(wt * 2^(-(t0 - time) / half_life))}
-#' where `wt` is obtained from the `weight` and `event` columns in the data. The product of this matrix with the item similarity matrix \eqn{S} gives a matrix of recommendation scores. The recommendation scores are then sorted, any items that the user has previously seen are optionally removed, and the top-N items are returned as the recommendations.
+#' where `wt` is obtained from the `weight` and `event` columns in the data.
+#'
+#' The product of this matrix with the item similarity matrix \eqn{S} then gives a matrix of recommendation scores. The recommendation scores are sorted, any items that the user has previously seen are optionally removed, and the top-N items are returned as the recommendations.
+#'
+#' The latter step is the most computationally expensive part of the algorithm. SAR can execute this in multithreaded fashion, with the default number of threads being half the number of (logical) cores. Use the `set_sar_threads` function to set the number of threads to use.
 #'
 #' @seealso
 #' [Making recommendations](https://github.com/Microsoft/Product-Recommendations/blob/master/doc/sar.md#making-recommendations) at the [Product Recommendations API repo](https://github.com/Microsoft/Product-Recommendations) on GitHub
 #'
 #' @return
-#' A data frame containing one row per user ID supplied.
+#' For `user_predict`, a data frame containing one row per user ID supplied (or if no IDs are supplied, exactly one row).
+#' @rdname user_predict
 #' @export
 user_predict <- function(object, userdata=NULL, k=10, include_seed_items=FALSE, backfill=FALSE, reftime)
 {

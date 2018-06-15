@@ -1,3 +1,57 @@
+#' Azure product recommendations endpoint class
+#'
+#' Class representing the client endpoint to the product recommendations service.
+#'
+#' @docType class
+#' @section Methods:
+#' - `new(...)`: Initialize a client endpoint object. See 'Initialization' for more details.
+#' - `get_model()`: Get an existing product recommendations model; return an object of class `rec_model`.
+#' - `train_model(...)`: Train a new product recommendations model; return an object of class `rec_model`. See `Training` for more details.
+#' - `sync_model_list()`: Update the stored list of models for this service.
+#' - `get_swagger_url()`: Get the Swagger URL for this service.
+#' - `get_service_url()`: Get the service URL, which is used to train models and obtain recommendations.
+#'
+#' @section Initialization:
+#' The following arguments are used to initialize a new client endpoint:
+#' - `name`: The name of the endpoint; see below. Alternatively, this can also be the full URL of the endpoint.
+#' - `admin_key`: The administration key for the endpoint. Use this to retrieve, train, and delete models.
+#' - `rec_key`: The recommender key for the endpoint. Use this to get recommendations.
+#' - `service_host`: The hostname for the endpoint. For the public Azure cloud, this is `azurewebsites.net`.
+#' - `storage_key`: The access key for the storage account associated with the service.
+#' - `storage_sas`: A shared access signature (SAS) for the storage account associated with the service. You must provide either `storage_key` or `storage_sas` if you want to upload new datasets to the backend.
+#' - `storage_host`: The hostname for the storage account. For the public Azure cloud, this is `core.windows.net`.
+#' - `storage_endpoint`: The storage account endpoint for the service. By default, uses the account that was created at service creation.
+#' - `data_container`: The default blob container for input datasets. Defaults to `"inputdata"`.
+#'
+#' Note that the name of the client endpoint for a product recommendations service is _not_ the name that was supplied when deploying the service. Instead, it is a randomly generated unique string that starts with the service name. For example, if you deployed a service called "myrec", the name of the endpoint is "myrecusacvjwpk4raost".
+#'
+#' @section Training:
+#' To train a new model, supply the following arguments to the `train_model` method:
+#' - `description`: A character string describing the model.
+#' - `usage_data`: The training dataset. This is required.
+#' - `catalog_data`: An optional dataset giving features for each item. Only used for imputing cold items.
+#' - `eval_data`: An optional dataset to use for evaluating model performance.
+#' - `support_threshold`: The minimum support for an item to be considered warm.
+#' - `cooccurrence`: How to measure cooccurrence: either user ID, or user-by-time.
+#' - `similarity`: The similarity metric to use; defaults to "Jaccard".
+#' - `cold_items`: Whether recommendations should include cold items.
+#' - `cold_to_cold`: Whether similarities between cold items should be computed.
+#' - `user_affinity`: Whether event type and time should be considered.
+#- - `backfill`: Whether to backfill recommendations with popular items.
+#' - `include_seed_items`: Whether seed items (those already seen by a user) should be allowed as recommendations.
+#' - `half_life`: The time decay parameter for computing user-item affinities.
+#' - `user_to_items`: Whether user ID is used when computing personalised recommendations.
+#' - `wait`: Whether to wait until the model has finished training.
+#' - `container`: The container where the input datasets are stored. Defaults to the input container for the endpoint, usually `"inputdata"`.
+#'
+#' For detailed information on these arguments see the [API reference](https://github.com/Microsoft/Product-Recommendations/blob/master/doc/api-reference.md#train-a-new-model).
+#'
+#' @seealso
+#' [rec_service] for the service itself, [rec_model] for an individual recommmendations model
+#'
+#' [API reference](https://github.com/Microsoft/Product-Recommendations/blob/master/doc/api-reference.md) and [SAR model description](https://github.com/Microsoft/Product-Recommendations/blob/master/doc/sar.md) at the Product Recommendations API repo on GitHub
+#'
+#' @format An R6 object of class `rec_endpoint`.
 #' @export
 rec_endpoint <- R6Class("rec_endpoint",
 

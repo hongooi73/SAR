@@ -1,3 +1,35 @@
+#' Azure product recommendations model class
+#'
+#' Class representing an individual product recommendations (SAR) model.
+#'
+#' @docType class
+#' @section Methods:
+#' - `new(...)`: Initialize a model object. See 'Initialization' for more details.
+#' - `delete(confirm=TRUE)`: Delete the model.
+#' - `user_predict(userdata, k=10)`: Get personalised recommendations from the model. See 'Recommendations' for more details.
+#' - `item_predict(item, k=10)`: Get item-to-item recommendations from the model. See 'Recommendations' for more details.
+#' - `get_model_url()`: Get the individual service URL for this model.
+#'
+#' @section Initialization:
+#' Generally, the easiest way to initialize a new model object is via the `get_model()` and `create_model()` methods of the `rec_endpoint` class, which will handle all the gory details.
+#'
+#' @section Recommendations:
+#' These arguments are used for obtaining personalised and item-to-item recommendations.
+#' - `userdata`: The input data on users for which to obtain personalised recommendations. This can be:
+#'    1. A character vector of user IDs. In this case, personalised recommendations will be computed based on the transactions in the training data, _ignoring_ any transaction event IDs or weights.
+#'    2. A data frame containing transaction item IDs, event types and/or weights, plus timestamps. In this case, all the transactions are assumed to be for a single (new) user. If the event types/weights are absent, all transactions are assigned equal weight.
+#'    3. A data frame containing user IDs and transaction details as in (2). In this case, the recommendations are based on both the training data for the given user(s), plus the new transaction details.
+#' - `item`: A vector of item IDs for which to obtain item-to-item recommendations.
+#' - `k`: The number of recommendations to return. Defaults to 10.
+#'
+#' Both the `user_predict()` and `item_predict()` methods return a data frame with the top-K recommendations and scores.
+#'
+#' @seealso
+#' [rec_service] for the service backend, [rec_endpoint] for the client endpoint
+#'
+#' [API reference](https://github.com/Microsoft/Product-Recommendations/blob/master/doc/api-reference.md) and [SAR model description](https://github.com/Microsoft/Product-Recommendations/blob/master/doc/sar.md) at the Product Recommendations API repo on GitHub
+#'
+#' @format An R6 object of class `rec_model`.
 #' @export
 rec_model <- R6Class("rec_model",
 

@@ -1,3 +1,33 @@
+#' Azure product recommendations service class
+#'
+#' Class representing an Azure product recommendations service.
+#'
+#' @docType class
+#' @section Methods:
+#' - `new(token, subscription, resource_group, name, ...)`: Initialize a recommendations service object. See 'Initialization' for more details.
+#' - `start()`: Start the service.
+#' - `stop()`: Stop the service.
+#' - `get_rec_endpoint()`: Return an object representing the client endpoint for the service.
+#' - `delete(confirm=TRUE)`: Delete the service, after checking for confirmation.
+#'
+#' @section Initialization:
+#' Generally, the easiest way to initialize a new recommendations service object is via the `create_rec_service` or `get_rec_service` methods of the [az_subscription] or [az_resource_group] classes.
+#' 
+#' To create a new recommendations service, supply the following additional arguments to `new()`:
+#' - `hosting_plan`: The name of the hosting plan (essentially the size of the virtual machine on which to run the service). See below for the plans that are available.
+#' - `storage_type`: The type of storage account to use. Can be `"Standard_LRS"` or `"Standard_GRS"`.
+#' - `insights_location`: The location for the application insights service. Defaults to `"East US"`.
+#' - `data_container`: The default blob storage container to use for saving input datasets. Defaults to `"inputdata"`.
+#' - `wait`: Whether to wait until the service has finished provisioning. Defaults to TRUE.
+#'
+#' @seealso
+#' [rec_endpoint], for the client interface to the recommendations service
+#'
+#' [List of Azure hosting plans](https://azure.microsoft.com/en-us/pricing/details/app-service/windows/)
+#'
+#' [Deployment instructions](https://github.com/Microsoft/Product-Recommendations/blob/master/doc/deployment-instructions.md) at the Product Recommendations API repo on GitHub
+#'
+#' @format An R6 object of class `az_rec_service`, inheriting from `AzureRMR::az_template`.
 #' @export
 az_rec_service <- R6Class("az_rec_service", inherit=AzureRMR::az_template,
 

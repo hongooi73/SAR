@@ -19,7 +19,7 @@
 #'
 #' Note that the similarity matrix in SAR thus only includes information on which users transacted which items. It does not include any other information such as item ratings or features, which may be used by other recommender algorithms.
 #'
-#' #' The SAR implementation in R should be usable on datasets with up to a few million rows and several thousand items. The main constraint is the size of the similarity matrix, which in turn depends (quadratically) on the number of unique items. The implementation has been successfully tested on the MovieLens 20M dataset, which contains about 138,000 users and 27,000 items. For larger datasets, it is recommended to use either the [Azure web service API][az_sar], or the [Spark implementation][ml_sar].
+#' #' The SAR implementation in R should be usable on datasets with up to a few million rows and several thousand items. The main constraint is the size of the similarity matrix, which in turn depends (quadratically) on the number of unique items. The implementation has been successfully tested on the MovieLens 20M dataset, which contains about 138,000 users and 27,000 items. For larger datasets, it is recommended to use the [Azure web service API][az_rec_service].
 #'
 #' @section Cold items:
 #'
@@ -30,7 +30,7 @@
 #'
 #' The data frame and features used for cold items are given by the `catalog_data` and `catalog_formula` arguments. `catalog_data` should be a data frame whose first column is item ID. `catalog_formula` should be a one-sided formula (no LHS).
 #'
-#' See the vignette "cold item modelling" for more information.
+#' This feature is currently experimental, and subject to change.
 #'
 #' @return
 #' An S3 object representing the SAR model. This is essentially the item-to-item similarity matrix in sparse format, along with the original transaction data used to fit the model.

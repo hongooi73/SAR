@@ -56,7 +56,7 @@ Central to how SAR works is an item-to-item \emph{co-occurrence matrix}, which i
 
 Note that the similarity matrix in SAR thus only includes information on which users transacted which items. It does not include any other information such as item ratings or features, which may be used by other recommender algorithms.
 
-#' The SAR implementation in R should be usable on datasets with up to a few million rows and several thousand items. The main constraint is the size of the similarity matrix, which in turn depends (quadratically) on the number of unique items. The implementation has been successfully tested on the MovieLens 20M dataset, which contains about 138,000 users and 27,000 items. For larger datasets, it is recommended to use either the \link[=az_sar]{Azure web service API}, or the \link[=ml_sar]{Spark implementation}.
+#' The SAR implementation in R should be usable on datasets with up to a few million rows and several thousand items. The main constraint is the size of the similarity matrix, which in turn depends (quadratically) on the number of unique items. The implementation has been successfully tested on the MovieLens 20M dataset, which contains about 138,000 users and 27,000 items. For larger datasets, it is recommended to use the \link[=az_rec_service]{Azure web service API}.
 }
 \section{Cold items}{
 
@@ -69,7 +69,7 @@ SAR has the ability to handle cold items, meaning those which have not been seen
 
 The data frame and features used for cold items are given by the \code{catalog_data} and \code{catalog_formula} arguments. \code{catalog_data} should be a data frame whose first column is item ID. \code{catalog_formula} should be a one-sided formula (no LHS).
 
-See the vignette "cold item modelling" for more information.
+This feature is currently experimental, and subject to change.
 }
 
 \seealso{
