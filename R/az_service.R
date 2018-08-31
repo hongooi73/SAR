@@ -38,32 +38,9 @@ public=list(
     storage_key=NULL,
     data_container=NULL,
 
-    initialize=function(token, subscription, resource_group, name,
-                        hosting_plan,
-                        storage_type=c("Standard_LRS", "Standard_GRS"),
-                        insights_location=c("East US", "North Europe", "West Europe", "South Central US"),
-                        data_container="inputdata",
-                        ..., wait=TRUE)
+    initialize=function(token, subscription, resource_group, name, ...)
     {
-        # if no parameters were supplied, we want to retrieve an existing app
-        existing_app <- missing(storage_type) && missing(hosting_plan) &&
-                        missing(insights_location) && missing(data_container) &&
-                        is_empty(list(...)) && missing(wait)
-
-        if(!existing_app) # we want to deploy
-        {
-            storage_type <- match.arg(storage_type)
-            insights_location <- match.arg(insights_location)
-
-            template <- sar_template
-            parameters <- list(accountType=storage_type,
-                               hostingPlanSku=hosting_plan,
-                               appInsightsLocation=insights_location,
-                               deployPackageUri=sar_dll)
-
-            super$initialize(token, subscription, resource_group, name, template, parameters, ..., wait=wait)
-        }
-        else super$initialize(token, subscription, resource_group, name)
+        super$initialize(token, subscription, resource_group, name, ...)
 
         # get data members
         outputs <- self$properties$outputs
@@ -72,7 +49,6 @@ public=list(
         self$rec_key <- outputs$recommendPrimaryKey$value
         self$storage_key <- sub("^AccountKey=", "",
             strsplit(outputs$storageConnectionString$value, ";")[[1]][3])
-        self$data_container <- data_container
 
         # get the storage account and webapp
         outputs <- unlist(self$properties$outputResources)
@@ -81,11 +57,6 @@ public=list(
 
         app_id <- grep("Microsoft.Web/sites/.+$", outputs, ignore.case=TRUE, value=TRUE)[1]
         private$app <- az_resource$new(self$token, self$subscription, id=app_id)
-
-        # create default blobcontainer for datasets
-        if(!existing_app)
-            private$storage$get_blob_endpoint() %>%
-                create_blob_container(data_container, public_access="none")
     },
 
     start=function()
@@ -105,6 +76,15 @@ public=list(
         stor_endp <- private$storage$get_blob_endpoint(key=self$storage_key, sas=sas)
         rec_endpoint$new(self$url, self$admin_key, self$rec_key,
                          storage_endpoint=stor_endp, data_container=self$data_container)
+    },
+
+    set_data_container=function(data_container="inputdata")
+    {
+        stor_endp <- private$storage$get_blob_endpoint(key=self$storage_key)
+        conts <- names(list_blob_containers(stor_endp))
+        if(!(data_container %in% conts))
+            create_blob_container(stor_endp, data_container, public_access="none")
+        self$data_container <- data_container
     },
 
     print=function(...)
