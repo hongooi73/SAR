@@ -66,7 +66,7 @@ For detailed information on these arguments see the \href{https://github.com/Mic
 }
 
 \seealso{
-\link{rec_service} for the service itself, \link{rec_model} for an individual recommmendations model
+\link{az_rec_service} for the service itself, \link{rec_model} for an individual recommmendations model
 
 \href{https://github.com/Microsoft/Product-Recommendations/blob/master/doc/api-reference.md}{API reference} and \href{https://github.com/Microsoft/Product-Recommendations/blob/master/doc/sar.md}{SAR model description} at the Product Recommendations API repo on GitHub
 }

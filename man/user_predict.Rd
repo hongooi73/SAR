@@ -5,8 +5,8 @@
 \alias{set_sar_threads}
 \title{Get personalised recommendations from a SAR model}
 \usage{
-user_predict(object, userdata = NULL, k = 10, include_seed_items = FALSE,
-  backfill = FALSE, reftime)
+user_predict(object, userdata = NULL, k = 10,
+  include_seed_items = FALSE, backfill = FALSE, reftime)
 
 set_sar_threads(n_threads)
 }
@@ -18,6 +18,8 @@ set_sar_threads(n_threads)
 \item{k}{The number of recommendations to obtain.}
 
 \item{include_seed_items}{Whether items a user has already seen should be considered for recommendations.}
+
+\item{backfill}{Whether to backfill recommendations with popular items.}
 
 \item{reftime}{The reference time for discounting timestamps. If not supplied, defaults to the latest date in the training data and any new transactions supplied.}
 

@@ -45,7 +45,7 @@ Both the \code{user_predict()} and \code{item_predict()} methods return a data f
 }
 
 \seealso{
-\link{rec_service} for the service backend, \link{rec_endpoint} for the client endpoint
+\link{az_rec_service} for the service backend, \link{rec_endpoint} for the client endpoint
 
 \href{https://github.com/Microsoft/Product-Recommendations/blob/master/doc/api-reference.md}{API reference} and \href{https://github.com/Microsoft/Product-Recommendations/blob/master/doc/sar.md}{SAR model description} at the Product Recommendations API repo on GitHub
 }

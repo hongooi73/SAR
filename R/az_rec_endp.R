@@ -47,7 +47,7 @@
 #' For detailed information on these arguments see the [API reference](https://github.com/Microsoft/Product-Recommendations/blob/master/doc/api-reference.md#train-a-new-model).
 #'
 #' @seealso
-#' [rec_service] for the service itself, [rec_model] for an individual recommmendations model
+#' [az_rec_service] for the service itself, [rec_model] for an individual recommmendations model
 #'
 #' [API reference](https://github.com/Microsoft/Product-Recommendations/blob/master/doc/api-reference.md) and [SAR model description](https://github.com/Microsoft/Product-Recommendations/blob/master/doc/sar.md) at the Product Recommendations API repo on GitHub
 #'

@@ -4,30 +4,36 @@
 \alias{sar}
 \alias{sar.data.frame}
 \alias{sar.default}
+\alias{print.sar}
 \title{Fit a SAR model}
 \usage{
 sar(...)
 
-\method{sar}{data.frame}(x, user = "user", item = "item", time = "time",
-  event = "event", weight = "weight", ...)
+\method{sar}{data.frame}(x, user = "user", item = "item",
+  time = "time", event = "event", weight = "weight", ...)
 
 \method{sar}{default}(user, item, time, event = NULL, weight = NULL,
-  support_threshold = 1, allowed_items = NULL, allowed_events = c(Click =
-  1, RecommendationClick = 2, AddShopCart = 3, RemoveShopCart = -1, Purchase =
-  4), by_user = TRUE, similarity = c("jaccard", "lift", "count"),
-  half_life = 30, catalog_data = NULL, catalog_formula = item ~ .,
+  support_threshold = 1, allowed_items = NULL,
+  allowed_events = c(Click = 1, RecommendationClick = 2, AddShopCart = 3,
+  RemoveShopCart = -1, Purchase = 4), by_user = TRUE,
+  similarity = c("jaccard", "lift", "count"), half_life = 30,
+  catalog_data = NULL, catalog_formula = item ~ .,
   cold_to_cold = FALSE, cold_item_model = NULL, ...)
+
+\method{print}{sar}(x, ...)
 }
 \arguments{
-\item{...}{Further arguments to pass to the cold-items feature model.}
+\item{...}{For \code{sar()}, further arguments to pass to the cold-items feature model.}
 
-\item{x}{A data frame.}
+\item{x}{A data frame. For the \code{print} method, a SAR model object.}
 
 \item{user, item, time, event, weight}{For the default method, vectors to use as the user IDs, item IDs, timestamps, event types, and transaction weights for SAR. For the \code{data.frame} method, the names of the columns in the data frame \code{x} to use for these variables.}
 
 \item{support_threshold}{The SAR support threshold. Items that do not occur at least this many times in the data will be considered "cold".}
 
 \item{allowed_items}{A character or factor vector of allowed item IDs to use in the SAR model. If supplied, this will be used to categorise the item IDs in the data.}
+
+\item{allowed_events}{The allowed values for \code{events}, if that argument is supplied. Other values will be discarded.}
 
 \item{by_user}{Should the analysis be by user ID, or by user ID and timestamp? Defaults to userID only.}
 
@@ -37,11 +43,11 @@ sar(...)
 
 \item{catalog_data}{A dataset to use for building the cold-items feature model.}
 
-\item{catalog_formula:}{A formula for the feature model used to compute similarities for cold items.}
+\item{catalog_formula}{A formula for the feature model used to compute similarities for cold items.}
 
-\item{cold_to_cold:}{Whether the cold-items feature model should include the cold items themselves in the training data, or only warm items.}
+\item{cold_to_cold}{Whether the cold-items feature model should include the cold items themselves in the training data, or only warm items.}
 
-\item{cold_item_model:}{The type of model to use for cold item features.}
+\item{cold_item_model}{The type of model to use for cold item features.}
 }
 \value{
 An S3 object representing the SAR model. This is essentially the item-to-item similarity matrix in sparse format, along with the original transaction data used to fit the model.

@@ -1,17 +1,18 @@
 #' Fit a SAR model
 #'
-#' @param x A data frame.
+#' @param x A data frame. For the `print` method, a SAR model object.
 #' @param user,item,time,event,weight For the default method, vectors to use as the user IDs, item IDs, timestamps, event types, and transaction weights for SAR. For the `data.frame` method, the names of the columns in the data frame `x` to use for these variables.
 #' @param support_threshold The SAR support threshold. Items that do not occur at least this many times in the data will be considered "cold".
 #' @param allowed_items A character or factor vector of allowed item IDs to use in the SAR model. If supplied, this will be used to categorise the item IDs in the data.
 #' @param by_user Should the analysis be by user ID, or by user ID and timestamp? Defaults to userID only.
 #' @param similarity Similarity metric to use; defaults to Jaccard.
 #' @param half_life The decay period to use when weighting transactions by age.
+#' @param allowed_events The allowed values for `events`, if that argument is supplied. Other values will be discarded.
 #' @param catalog_data A dataset to use for building the cold-items feature model.
-#' @param catalog_formula: A formula for the feature model used to compute similarities for cold items.
-#' @param cold_to_cold: Whether the cold-items feature model should include the cold items themselves in the training data, or only warm items.
-#' @param cold_item_model: The type of model to use for cold item features. 
-#' @param ... Further arguments to pass to the cold-items feature model.
+#' @param catalog_formula A formula for the feature model used to compute similarities for cold items.
+#' @param cold_to_cold Whether the cold-items feature model should include the cold items themselves in the training data, or only warm items.
+#' @param cold_item_model The type of model to use for cold item features.
+#' @param ... For `sar()`, further arguments to pass to the cold-items feature model.
 #' @details
 #' Smart Adaptive Recommendations (SAR) is a fast, scalable, adaptive algorithm for personalized recommendations based on user transaction history and item descriptions. It produces easily explainable/interpretable recommendations and handles "cold item" and "semi-cold user" scenarios.
 #'
@@ -43,6 +44,7 @@ sar <- function(...)
 {
     UseMethod("sar")
 }
+
 
 #' @rdname sar
 #' @export
@@ -93,6 +95,27 @@ sar.default <- function(user, item, time, event=NULL, weight=NULL, support_thres
                 half_life=half_life, similarity=similarity)
     class(out) <- "sar"
     out
+}
+
+
+#' @rdname sar
+#' @method print sar
+#' @export
+print.sar <- function(x, ...)
+{
+    cat("SAR model\n")
+    cat("Support threshold:", x$support_threshold, "\n")
+    cat("Co-occurrence unit:", if(x$by_user) "user\n" else "user/time\n")
+    cat("Similarity function:", x$similarity, "\n")
+    cat("Decay period in days:", x$half_life, "\n")
+    cat("Item count:", nrow(x$sim_mat), "\n")
+    cat("User count:", nrow(x$aff_mat), "\n")
+    if(!is.null(x$col_ids))
+    {
+        cat("Column names:\n")
+        print(x$col_ids)
+    }
+    invisible(x)
 }
 
 
@@ -157,25 +180,5 @@ get_cold_similarity <- function(cold_item_model=NULL, sim_matrix, catalog_formul
 
     sim_matrix
 }
-
-
-#' @export
-print.sar <- function(x, ...)
-{
-    cat("SAR model\n")
-    cat("Support threshold:", x$support_threshold, "\n")
-    cat("Co-occurrence unit:", if(x$by_user) "user\n" else "user/time\n")
-    cat("Similarity function:", x$similarity, "\n")
-    cat("Decay period in days:", x$half_life, "\n")
-    cat("Item count:", nrow(x$sim_mat), "\n")
-    cat("User count:", nrow(x$aff_mat), "\n")
-    if(!is.null(x$col_ids))
-    {
-        cat("Column names:\n")
-        print(x$col_ids)
-    }
-    invisible(x)
-}
-
 
 

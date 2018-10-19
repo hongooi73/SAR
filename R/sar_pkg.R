@@ -5,6 +5,7 @@ NULL
 #' @importFrom R6 R6Class
 #' @importFrom dplyr %>%
 #' @importFrom RcppParallel RcppParallelLibs
+#' @importFrom stats cor predict reformulate xtabs
 NULL
 
 #' @import Matrix
@@ -12,3 +13,4 @@ NULL
 #' @import AzureStor
 NULL
 
+globalVariables(c("self", "az_rec_endpoint", "warm_item", "cold_item"), "SAR")

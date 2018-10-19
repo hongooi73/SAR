@@ -25,7 +25,7 @@
 #' Both the `user_predict()` and `item_predict()` methods return a data frame with the top-K recommendations and scores.
 #'
 #' @seealso
-#' [rec_service] for the service backend, [rec_endpoint] for the client endpoint
+#' [az_rec_service] for the service backend, [rec_endpoint] for the client endpoint
 #'
 #' [API reference](https://github.com/Microsoft/Product-Recommendations/blob/master/doc/api-reference.md) and [SAR model description](https://github.com/Microsoft/Product-Recommendations/blob/master/doc/sar.md) at the Product Recommendations API repo on GitHub
 #'

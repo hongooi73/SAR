@@ -4,6 +4,7 @@
 #' @param userdata A vector of user IDs, or a data frame containing user IDs and/or transactions. See below for the various ways to supply user information for predicting, and how they affect the results.
 #' @param k The number of recommendations to obtain.
 #' @param include_seed_items Whether items a user has already seen should be considered for recommendations.
+#' @param backfill Whether to backfill recommendations with popular items.
 #' @param reftime The reference time for discounting timestamps. If not supplied, defaults to the latest date in the training data and any new transactions supplied.
 #' @details
 #' The SAR model can produce personalised recommendations for a user, given a history of their transactions. This history can be based on either the original training data, or new events, based on the contents of `userdata` argument:
