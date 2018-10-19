@@ -13,6 +13,8 @@ Imports:
     AzureRMR,
     AzureStor,
     dplyr (>= 0.7),
+    httr,
+    jsonlite,
     Matrix,
     R6,
     parallel,
