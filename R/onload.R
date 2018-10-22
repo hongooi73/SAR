@@ -1,9 +1,13 @@
 .onLoad <- function(libname, pkgname)
 {
     set_sar_threads()
+    add_sar_methods()
+}
 
-    ## add class methods to resource group
 
+# add class methods to resource group
+add_sar_methods <- function()
+{
     az_resource_group$set("public", "create_rec_service", overwrite=TRUE,
     function(name, hosting_plan,
              storage_type=c("Standard_LRS", "Standard_GRS"),

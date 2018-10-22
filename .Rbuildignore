@@ -5,3 +5,4 @@
 \.Rxproj$
 ^\.Rproj\.user$
 .travis.yml
+CONTRIBUTING.md
