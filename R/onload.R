@@ -1,3 +1,87 @@
+#' Create Azure recommender service
+#'
+#' Method for the [AzureRMR::az_resource_group] and [AzureRMR::az_subscription] classes.
+#'
+#' @rdname create_rec_service
+#' @name create_rec_service
+#' @aliases create_rec_service
+#' @section Usage:
+#' ```
+#' create_rec_service(name, location, hosting_plan, storage_type = c("Standard_LRS", "Standard_GRS"),
+#'                    insights_location = c("East US", "North Europe", "West Europe", "South Central US"),
+#'                    data_container = "inputdata", ..., wait = TRUE
+#' ```
+#' @section Arguments:
+#' - `name`: The name of the recommender service.
+#' - `location`: The location/region for the service. For the az_resource_group method, defaults to the location of the resource group.
+#' - `storage_type`: The replication strategy for the storage account for the service.
+#' - `insights_location`: Location for the application insights service giving you details on the webapp usage.
+#' - `data_container`: The name of the blob container within the storage account to use for storing datasets.
+#' - `wait`: Whether to wait until the service has finished provisioning.
+#' - `...` : Other named arguments to pass to the [az_template] initialization function.
+#'
+#' @section Details:
+#' This method deploys a new recommender service. The individual resources created are an Azure webapp, a storage account, and an application insights service for monitoring. Within the storage account, a blob container is created with name given by the `data_container` argument for storing input datasets.
+#'
+#' For the az_subscription method, a resource group is also created to hold the resources. The name of the resource group will be the same as the name of the service.
+#'
+#' @section Value:
+#' An object of class `az_rec_service` representing the deployed recommender service.
+#'
+#' @seealso
+#' [get_rec_service], [delete_rec_service].
+#'
+#' The specific template deployed by this method can be seen [here](https://raw.githubusercontent.com/Microsoft/Product-Recommendations/master/saw/recommendationswebapp/core/arm/resources.json).
+NULL
+
+
+#' Get existing Azure recommender service
+#'
+#' Method for the [AzureRMR::az_resource_group] and [AzureRMR::az_subscription] classes.
+#'
+#' @rdname get_rec_service
+#' @name get_rec_service
+#' @aliases get_rec_service
+#' @section Usage:
+#' ```
+#' get_rec_service(name, data_container = "inputdata")
+#' ```
+#' @section Arguments:
+#' - `name`: The name of the recommender service.
+#' - `data_container`: The name of the blob container within the storage account to use for storing datasets.
+#'
+#' @section Value:
+#' An object of class `az_rec_service` representing the deployed recommender service.
+#'
+#' @seealso
+#' [create_rec_service], [delete_rec_service]
+NULL
+
+
+#' Delete an Azure recommender service
+#'
+#' Method for the [AzureRMR::az_resource_group] and [AzureRMR::az_subscription] classes.
+#'
+#' @rdname delete_rec_service
+#' @name delete_rec_service
+#' @aliases delete_rec_service
+#' @section Usage:
+#' ```
+#' delete_rec_service(name, confirm = TRUE, free_resources = TRUE)
+#' ```
+#' @section Arguments:
+#' - `name`: The name of the recommender service.
+#' - `confirm`: Whether to ask for confirmation before deleting.
+#' - `free_resources`: Whether to delete the individual resources as well as the recommender template.
+#'
+#' @section Value:
+#' NULL on successful deletion.
+#'
+#' @seealso
+#' [create_rec_service], [delete_rec_service]
+NULL
+
+
 .onLoad <- function(libname, pkgname)
 {
     set_sar_threads()
@@ -9,7 +93,7 @@
 add_sar_methods <- function()
 {
     az_resource_group$set("public", "create_rec_service", overwrite=TRUE,
-    function(name, hosting_plan,
+    function(name, location=self$location, hosting_plan,
              storage_type=c("Standard_LRS", "Standard_GRS"),
              insights_location=c("East US", "North Europe", "West Europe", "South Central US"),
              data_container="inputdata",
@@ -23,7 +107,8 @@ add_sar_methods <- function()
                            appInsightsLocation=insights_location,
                            deployPackageUri=sar_dll)
 
-        res <- az_rec_service$new(self$token, self$subscription, self$name, name,
+        res <- az_rec_service$new(self$token, self$subscription, self$name,
+                                  name=name, location=location,
                                   template=sar_template, parameters=parameters,
                                   ..., wait=wait)
 
