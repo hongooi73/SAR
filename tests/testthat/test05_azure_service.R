@@ -53,6 +53,7 @@ ms_usage$time <- as.POSIXct(ms_usage$time, tz="UTC", format="%Y/%m/%dT%H:%M:%S")
 
 i <- readLines(file.path(datapath, "items.txt"))
 u <- readLines(file.path(datapath, "user.txt"))
+u2 <- readLines(file.path(datapath, "user2.txt"))
 dfu <- subset(ms_usage, user == u)
 
 check_preds <- function(df1, df2, threshold_ratio)
@@ -110,6 +111,45 @@ test_that("Azure recommender client works",
     upred <- test_count$user_predict(userdata=dfu)
     expect_s3_class(upred, "data.frame")
     check_preds(upred0, upred, 0.01)
+})
+
+
+test_that("Azure recommender client works with multiple user IDs",
+{
+    endp <- rec_endpoint$new(svcname, admin_key, rec_key, storage_key=storage_key)
+    expect_is(endp, "rec_endpoint")
+
+    test_count <- endp$get_model("test_count")
+    expect_is(test_count, "rec_model")
+
+    uu2 <- c(u, u2)
+
+    expected <- read.csv(file.path(datapath, "userpred_2users_count3_userid_only.csv"),
+                         stringsAsFactors=FALSE,
+                         colClasses=c(rep("character", 11), rep("numeric", 10)))
+    pred <- test_count$user_predict(uu2)
+    check_preds(expected, pred, 0.01)
+
+    pred2 <- test_count$user_predict(uu2[2:1])
+    expected2 <- expected[2:1,]
+    row.names(expected2) <- NULL
+    check_preds(expected2, pred2, 0.01)
+
+    pred3 <- test_count$user_predict(uu2[c(1, 2, 1, 2, 1, 2)])
+    check_preds(expected, pred3, 0.01)
+
+    expected <- read.csv(file.path(datapath, "userpred_2users_count3_userid_plus_events.csv"),
+                         stringsAsFactors=FALSE,
+                         colClasses=c(rep("character", 11), rep("numeric", 10)))
+    dfuu2 <- rbind(subset(ms_usage, user == u), subset(ms_usage, user == u2))
+    pred <- test_count$user_predict(dfuu2)
+    check_preds(expected, pred, 0.01)
+
+    dfu2u <- rbind(subset(ms_usage, user == u2), subset(ms_usage, user == u))
+    pred2 <- test_count$user_predict(dfu2u)
+    expected2 <- expected[2:1,]
+    row.names(expected2) <- NULL
+    check_preds(expected2, pred2, 0.01)
 
     # delete test model once we're done
     endp$delete_model("test_count", confirm=FALSE)

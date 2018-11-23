@@ -7,6 +7,7 @@ ms_usage$time <- as.POSIXct(ms_usage$time, tz="UTC", format="%Y/%m/%dT%H:%M:%S")
 
 i <- readLines(file.path(datapath, "items.txt"))
 u <- readLines(file.path(datapath, "user.txt"))
+u2 <- readLines(file.path(datapath, "user2.txt"))
 dfu <- subset(ms_usage, user == u)
 
 
@@ -102,6 +103,41 @@ test_that("Prediction with new/overlapping user IDs works",
     expect_equal(nrow(pred), 1)
 
     expect_s3_class(user_predict(mod, dfu_ov[-1]), "data.frame")
+})
+
+
+test_that("Prediction with multiple user IDs ordered correctly",
+{
+    mod <- sar(ms_usage, support_threshold=3, similarity="count")
+
+    uu2 <- c(u, u2)
+
+    expected <- read.csv(file.path(datapath, "userpred_2users_count3_userid_only.csv"),
+                         stringsAsFactors=FALSE,
+                         colClasses=c(rep("character", 11), rep("numeric", 10)))
+    pred <- user_predict(mod, uu2)
+    expect_equal(pred, expected)
+
+    pred2 <- user_predict(mod, uu2[2:1])
+    expected2 <- expected[2:1,]
+    row.names(expected2) <- NULL
+    expect_equal(pred2, expected2)
+
+    pred3 <- user_predict(mod, uu2[c(1, 2, 1, 2, 1, 2)])
+    expect_equal(pred3, expected)
+
+    expected <- read.csv(file.path(datapath, "userpred_2users_count3_userid_plus_events.csv"),
+                         stringsAsFactors=FALSE,
+                         colClasses=c(rep("character", 11), rep("numeric", 10)))
+    dfuu2 <- rbind(subset(ms_usage, user == u), subset(ms_usage, user == u2))
+    pred <- user_predict(mod, dfuu2)
+    expect_equal(pred, expected)
+
+    dfu2u <- rbind(subset(ms_usage, user == u2), subset(ms_usage, user == u))
+    pred2 <- user_predict(mod, dfu2u)
+    expected2 <- expected[2:1,]
+    row.names(expected2) <- NULL
+    expect_equal(pred2, expected2)
 })
 
 
