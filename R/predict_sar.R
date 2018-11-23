@@ -120,7 +120,13 @@ user_predict <- function(object, userdata=NULL, k=10, include_seed_items=FALSE, 
 
     if(length(user) == 0)
         cbind.data.frame(recs[[2]], recs[[1]], stringsAsFactors=FALSE)
-    else cbind.data.frame(user=colnames(aff), recs[[2]], recs[[1]], stringsAsFactors=FALSE)
+    else
+    {
+        out <- cbind.data.frame(user=colnames(aff), recs[[2]], recs[[1]], stringsAsFactors=FALSE)
+        out <- out[match(unique(user), out$user, nomatch=0),]
+        row.names(out) <- NULL
+        out
+    }
 }
 
 
