@@ -41,5 +41,5 @@ An object of class \code{az_rec_service} representing the deployed recommender s
 \seealso{
 \link{get_rec_service}, \link{delete_rec_service}.
 
-The specific template deployed by this method can be seen \href{https://raw.githubusercontent.com/Microsoft/Product-Recommendations/master/saw/recommendationswebapp/core/arm/resources.json}{here}.
+The architecture for the web service is documented \href{https://github.com/Microsoft/Product-Recommendations/blob/master/doc/architecture.md}{here}, and the specific template deployed by this method is \href{https://raw.githubusercontent.com/Microsoft/Product-Recommendations/master/saw/recommendationswebapp/core/arm/resources.json}{here}.
 }

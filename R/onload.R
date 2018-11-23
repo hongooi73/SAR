@@ -31,7 +31,7 @@
 #' @seealso
 #' [get_rec_service], [delete_rec_service].
 #'
-#' The specific template deployed by this method can be seen [here](https://raw.githubusercontent.com/Microsoft/Product-Recommendations/master/saw/recommendationswebapp/core/arm/resources.json).
+#' The architecture for the web service is documented [here](https://github.com/Microsoft/Product-Recommendations/blob/master/doc/architecture.md), and the specific template deployed by this method is [here](https://raw.githubusercontent.com/Microsoft/Product-Recommendations/master/saw/recommendationswebapp/core/arm/resources.json).
 NULL
 
 
@@ -93,7 +93,7 @@ NULL
 add_sar_methods <- function()
 {
     az_resource_group$set("public", "create_rec_service", overwrite=TRUE,
-    function(name, location=self$location, hosting_plan,
+    function(name, hosting_plan="S2",
              storage_type=c("Standard_LRS", "Standard_GRS"),
              insights_location=c("East US", "North Europe", "West Europe", "South Central US"),
              data_container="inputdata",
@@ -108,7 +108,7 @@ add_sar_methods <- function()
                            deployPackageUri=sar_dll)
 
         res <- az_rec_service$new(self$token, self$subscription, self$name,
-                                  name=name, location=location,
+                                  name=name,
                                   template=sar_template, parameters=parameters,
                                   ..., wait=wait)
 

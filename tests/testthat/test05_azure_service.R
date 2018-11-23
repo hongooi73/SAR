@@ -11,13 +11,11 @@ subscription <- Sys.getenv("AZ_SUBSCRIPTION")
 if(tenant == "" || app == "" || password == "" || subscription == "")
     skip("Resource Manager credentials must be set prior to test")
 
-library(AzureRMR)
+az <- AzureRMR::az_rm$new(tenant=tenant, app=app, password=password)
+sub1 <- az$get_subscription(subscription)
 
 test_that("Azure recommender service backend works",
 {
-    az <- az_rm$new(tenant=tenant, app=app, secret=secret)
-    sub1 <- az$get_subscription(subscription)
-
     # generate random resource group name
     randgrp <- paste(sample(letters, 6, replace=TRUE), collapse="")
 
@@ -174,10 +172,7 @@ test_that("Azure recommmender backfill works",
 
 # backend and credential delete ---
 
-az_rm$
-    new(tenant=tenant, app=app, secret=secret)$
-    get_subscription(subscription)$
-    delete_resource_group(Sys.getenv("AZ_REC_RESGRP"), confirm=FALSE)
+sub1$delete_resource_group(Sys.getenv("AZ_REC_RESGRP"), confirm=FALSE)
 
 Sys.unsetenv("AZ_REC_RESGRP")
 Sys.unsetenv("AZ_REC_SERVICE")
