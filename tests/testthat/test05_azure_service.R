@@ -47,9 +47,7 @@ storage_key <- Sys.getenv("AZ_REC_STORAGE_KEY")
 expect_true(svcname != "" && admin_key != "" && rec_key != "")
 
 datapath <- "../resources"
-ms_usage <- read.csv(file.path(datapath, "demoUsage.csv"), stringsAsFactors=FALSE)
-names(ms_usage) <- c("user", "item", "time")
-ms_usage$time <- as.POSIXct(ms_usage$time, tz="UTC", format="%Y/%m/%dT%H:%M:%S")
+data(ms_usage, package="SAR", envir=environment())
 
 i <- readLines(file.path(datapath, "items.txt"))
 u <- readLines(file.path(datapath, "user.txt"))
@@ -85,7 +83,10 @@ test_that("Azure recommender client works",
         endp$delete_model("test_count", confirm=FALSE)
     expect_false("test_count" %in% endp$models$description)
 
-    endp$upload_csv(file.path(datapath, "demoUsage.csv"))
+    # recreate csv file for Azure service
+    demoUsage <- ms_usage
+    demoUsage$time <- strftime(demoUsage$time, format="%Y/%m/%dT%H:%M:%S", tz="UTC")
+    endp$upload_data(demoUsage, "demoUsage.csv")
 
     test_count <- endp$train_model("test_count", usage="demoUsage.csv", support_threshold=3,
                             similarity="Cooccurrence", user_affinity=TRUE, user_to_items=TRUE, backfill=TRUE,
@@ -195,7 +196,6 @@ test_that("Azure recommmender backfill works",
     upred0_nbf <- read.csv(file.path(datapath, "userpred_jac3_nobackfill.csv"), stringsAsFactors=FALSE,
                            colClasses=c(rep("character", 11), rep("numeric", 10)))
 
-    upred_nbf <- test_nobf$user_predict(userdata=u_bf)
     upred_nbf <- test_nobf$user_predict(userdata=u_bf)
     expect_s3_class(upred_nbf, "data.frame")
     check_preds(upred0_nbf, upred_nbf, 0.01)

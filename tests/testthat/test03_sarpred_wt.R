@@ -1,9 +1,7 @@
 context("SAR weighted prediction")
 
 datapath <- "../resources"
-ms_usage <- read.csv(file.path(datapath, "demoUsage.csv"), stringsAsFactors=FALSE)
-names(ms_usage) <- c("user", "item", "time")
-ms_usage$time <- as.POSIXct(ms_usage$time, tz="UTC", format="%Y/%m/%dT%H:%M:%S")
+data(ms_usage, package="SAR", envir=environment())
 
 i <- readLines(file.path(datapath, "items.txt"))
 u <- readLines(file.path(datapath, "user.txt"))

@@ -1,29 +1,25 @@
 context("Cold items modelling")
 
 datapath <- "../resources"
-ms_usage <- read.csv(file.path(datapath, "demoUsage.csv"), stringsAsFactors=FALSE)
-names(ms_usage) <- c("user", "item", "time")
-ms_usage$time <- as.POSIXct(ms_usage$time, tz="UTC", format="%Y/%m/%dT%H:%M:%S")
-
-ms_cat <- read.csv(file.path(datapath, "demoCatalog.csv"), stringsAsFactors=FALSE, header=FALSE)
-names(ms_cat) <- c("item", "name", "category")
+data(ms_usage, package="SAR", envir=environment())
+data(ms_catalog, package="SAR", envir=environment())
 
 # make some more variables
-ms_cat$ms <- grepl("microsoft", ms_cat$name, ignore.case=TRUE)
-ms_cat$surf <- grepl("surface", ms_cat$name, ignore.case=TRUE)
+ms_catalog$ms <- grepl("microsoft", ms_catalog$name, ignore.case=TRUE)
+ms_catalog$surf <- grepl("surface", ms_catalog$name, ignore.case=TRUE)
 
-f <- reformulate(names(ms_cat)[-(1:2)])
+f <- reformulate(names(ms_catalog)[-(1:2)])
 
 
 test_that("Cold item modelling works",
 {
     mod0 <- sar(ms_usage, support_threshold=25)
-    mod1 <- sar(ms_usage, support_threshold=25, catalog_data=ms_cat, catalog_formula=f, cold_item_model=NULL)
-    mod2 <- sar(ms_usage, support_threshold=25, catalog_data=ms_cat, catalog_formula=f, cold_item_model=NULL,
+    mod1 <- sar(ms_usage, support_threshold=25, catalog_data=ms_catalog, catalog_formula=f, cold_item_model=NULL)
+    mod2 <- sar(ms_usage, support_threshold=25, catalog_data=ms_catalog, catalog_formula=f, cold_item_model=NULL,
                 cold_to_cold=TRUE)
 
-    mod3 <- sar(ms_usage, support_threshold=25, catalog_data=ms_cat, catalog_formula=f, cold_item_model="lm")
-    mod4 <- sar(ms_usage, support_threshold=25, catalog_data=ms_cat, catalog_formula=f, cold_item_model="lm",
+    mod3 <- sar(ms_usage, support_threshold=25, catalog_data=ms_catalog, catalog_formula=f, cold_item_model="lm")
+    mod4 <- sar(ms_usage, support_threshold=25, catalog_data=ms_catalog, catalog_formula=f, cold_item_model="lm",
                 cold_to_cold=TRUE)
 
     sim0 <- as.matrix(mod0$sim_mat)
