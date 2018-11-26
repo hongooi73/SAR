@@ -3,6 +3,7 @@ Title: Smart Adaptive Recommendations
 Version: 0.0.1
 Authors@R: c(
     person("Hong", "Ooi", , "hongooi@microsoft.com", role = c("aut", "cre")),
+    person("Microsoft Product Recommendations team", role = "ctb", comment="source for MS sample datasets")
     person("Microsoft", role="cph")
     )
 Description: 'SAR' ('Smart Adaptive Recommendations') is a fast, scalable, adaptive algorithm for personalized recommendations based on user transactions and item descriptions. It produces easily explainable/interpretable recommendations and handles "cold item" and "semi-cold user" scenarios. This package provides two implementations of 'SAR': a standalone implementation, and an interface to a web service in Microsoft's 'Azure' cloud. The former allows fast and easy experimentation, and the latter provides robust scalability and extra features for production use.
