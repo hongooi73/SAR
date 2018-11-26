@@ -17,6 +17,8 @@ Class representing the client endpoint to the product recommendations service.
 \item \code{new(...)}: Initialize a client endpoint object. See 'Initialization' for more details.
 \item \code{get_model()}: Get an existing product recommendations model; return an object of class \code{rec_model}.
 \item \code{train_model(...)}: Train a new product recommendations model; return an object of class \code{rec_model}. See \code{Training} for more details.
+\item \code{upload_data(data, destfile)}: Upload a data frame to the endpoint, as a CSV file. By default, the name of the uploaded file will be the name of the data frame with a ".csv" extension.
+\item \code{upload_csv(srcfile, destfile)}: Upload a CSV file to the endpoint. By default, the name of the uploaded file will be the same as the source file.
 \item \code{sync_model_list()}: Update the stored list of models for this service.
 \item \code{get_swagger_url()}: Get the Swagger URL for this service.
 \item \code{get_service_url()}: Get the service URL, which is used to train models and obtain recommendations.

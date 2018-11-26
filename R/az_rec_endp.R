@@ -7,6 +7,8 @@
 #' - `new(...)`: Initialize a client endpoint object. See 'Initialization' for more details.
 #' - `get_model()`: Get an existing product recommendations model; return an object of class `rec_model`.
 #' - `train_model(...)`: Train a new product recommendations model; return an object of class `rec_model`. See `Training` for more details.
+#' - `upload_data(data, destfile)`: Upload a data frame to the endpoint, as a CSV file. By default, the name of the uploaded file will be the name of the data frame with a ".csv" extension.
+#' - `upload_csv(srcfile, destfile)`: Upload a CSV file to the endpoint. By default, the name of the uploaded file will be the same as the source file.
 #' - `sync_model_list()`: Update the stored list of models for this service.
 #' - `get_swagger_url()`: Get the Swagger URL for this service.
 #' - `get_service_url()`: Get the service URL, which is used to train models and obtain recommendations.
@@ -160,6 +162,8 @@ public=list(
 
     upload_data=function(data, destfile, container=self$data_container)
     {
+        if(missing(destfile))
+            destfile <- paste0(as.character(substitute(data)), ".csv")
         f <- tempfile(fileext=".csv")
         on.exit(file.remove(f))
         write.table(data, f, row.names=FALSE, col.names=FALSE, sep=",")

@@ -86,7 +86,7 @@ test_that("Azure recommender client works",
     # recreate csv file for Azure service
     demoUsage <- ms_usage
     demoUsage$time <- strftime(demoUsage$time, format="%Y/%m/%dT%H:%M:%S", tz="UTC")
-    endp$upload_data(demoUsage, "demoUsage.csv")
+    endp$upload_data(demoUsage)
 
     test_count <- endp$train_model("test_count", usage="demoUsage.csv", support_threshold=3,
                             similarity="Cooccurrence", user_affinity=TRUE, user_to_items=TRUE, backfill=TRUE,
