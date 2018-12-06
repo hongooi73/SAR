@@ -3,10 +3,10 @@ context("Azure recommender service backend")
 
 # backend test ---
 
-tenant <- Sys.getenv("AZ_TENANT_ID")
-app <- Sys.getenv("AZ_APP_ID")
-password <- Sys.getenv("AZ_PASSWORD")
-subscription <- Sys.getenv("AZ_SUBSCRIPTION")
+tenant <- Sys.getenv("AZ_TEST_TENANT_ID")
+app <- Sys.getenv("AZ_TEST_APP_ID")
+password <- Sys.getenv("AZ_TEST_PASSWORD")
+subscription <- Sys.getenv("AZ_TEST_SUBSCRIPTION")
 
 if(tenant == "" || app == "" || password == "" || subscription == "")
     skip("Resource Manager credentials must be set prior to test")
