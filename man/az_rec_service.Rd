@@ -41,6 +41,6 @@ To create a new recommendations service, supply the following additional argumen
 
 \href{https://azure.microsoft.com/en-us/pricing/details/app-service/windows/}{List of Azure hosting plans}
 
-\href{https://github.com/Microsoft/Product-Recommendations/blob/master/doc/deployment-instructions.md}{Deployment instructions} at the Product Recommendations API repo on GitHub
+\href{https://github.com/Microsoft/Product-Recommendations/blob/master/deploy/README.md}{Deployment instructions} at the Product Recommendations API repo on GitHub
 }
 \keyword{datasets}
