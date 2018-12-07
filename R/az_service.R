@@ -25,7 +25,7 @@
 #'
 #' [List of Azure hosting plans](https://azure.microsoft.com/en-us/pricing/details/app-service/windows/)
 #'
-#' [Deployment instructions](https://github.com/Microsoft/Product-Recommendations/blob/master/doc/deployment-instructions.md) at the Product Recommendations API repo on GitHub
+#' [Deployment instructions](https://github.com/Microsoft/Product-Recommendations/blob/master/deploy/README.md) at the Product Recommendations API repo on GitHub
 #'
 #' @format An R6 object of class `az_rec_service`, inheriting from `AzureRMR::az_template`.
 #' @export
