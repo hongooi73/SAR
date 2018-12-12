@@ -41,3 +41,4 @@ Debug
 *.dll
 
 .vs/
+.vscode/
