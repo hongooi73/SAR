@@ -1,12 +1,12 @@
 Package: SAR
 Title: Smart Adaptive Recommendations
-Version: 0.0.1
+Version: 1.0.0
 Authors@R: c(
     person("Hong", "Ooi", , "hongooi@microsoft.com", role = c("aut", "cre")),
     person("Microsoft Product Recommendations team", role = "ctb", comment="source for MS sample datasets"),
     person("Microsoft", role="cph")
     )
-Description: 'Smart Adaptive Recommendations' (SAR) is the name of a fast, scalable, adaptive algorithm for personalized recommendations based on user transactions and item descriptions. It produces easily explainable/interpretable recommendations and handles "cold item" and "semi-cold user" scenarios. This package provides two implementations of 'SAR': a standalone implementation, and an interface to a web service in Microsoft's 'Azure' cloud. The former allows fast and easy experimentation, and the latter provides robust scalability and extra features for production use.
+Description: 'Smart Adaptive Recommendations' (SAR) is the name of a fast, scalable, adaptive algorithm for personalized recommendations based on user transactions and item descriptions. It produces easily explainable/interpretable recommendations and handles "cold item" and "semi-cold user" scenarios. This package provides two implementations of 'SAR': a standalone implementation, and an interface to a web service in Microsoft's 'Azure' cloud: <https://github.com/Microsoft/Product-Recommendations>. The former allows fast and easy experimentation, and the latter provides robust scalability and extra features for production use.
 License: MIT + file LICENSE
 Depends: 
     R (>= 3.3)
@@ -29,5 +29,3 @@ LinkingTo: Rcpp,
 SystemRequirements: GNU make
 Roxygen: list(markdown=TRUE)
 RoxygenNote: 6.1.0.9000
-Remotes:
-    cloudyr/AzureStor
