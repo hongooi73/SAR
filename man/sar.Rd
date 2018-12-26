@@ -78,6 +78,22 @@ The data frame and features used for cold items are given by the \code{catalog_d
 This feature is currently experimental, and subject to change.
 }
 
+\examples{
+
+data(ms_usage)
+
+## all of these fit the same model:
+
+# fit a SAR model from a series of vectors
+mod1 <- sar(user=ms_usage$user, item=ms_usage$item, time=ms_usage$time)
+
+# fit a model from a data frame, naming the variables to use
+mod2 <- sar(ms_usage, user="user", item="item", time="time")
+
+# fit a model from a data frame, using default variable names
+mod3 <- sar(ms_usage)
+
+}
 \seealso{
 \href{https://github.com/Microsoft/Product-Recommendations/blob/master/doc/sar.md}{Description of SAR} at the \href{https://github.com/Microsoft/Product-Recommendations}{Product Recommendations API repo} on GitHub
 }

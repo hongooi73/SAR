@@ -38,6 +38,22 @@
 #'
 #' @seealso
 #' [Description of SAR](https://github.com/Microsoft/Product-Recommendations/blob/master/doc/sar.md) at the [Product Recommendations API repo](https://github.com/Microsoft/Product-Recommendations) on GitHub
+#'
+#' @examples
+#' 
+#' data(ms_usage)
+#'
+#' ## all of these fit the same model:
+#'
+#' # fit a SAR model from a series of vectors
+#' mod1 <- sar(user=ms_usage$user, item=ms_usage$item, time=ms_usage$time)
+#'
+#' # fit a model from a data frame, naming the variables to use
+#' mod2 <- sar(ms_usage, user="user", item="item", time="time")
+#'
+#' # fit a model from a data frame, using default variable names
+#' mod3 <- sar(ms_usage)
+#'
 #' @rdname sar
 #' @export
 sar <- function(...)

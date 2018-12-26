@@ -47,6 +47,24 @@ The product of this matrix with the item similarity matrix \eqn{S} then gives a 
 
 The latter step is the most computationally expensive part of the algorithm. SAR can execute this in multithreaded fashion, with the default number of threads being half the number of (logical) cores. Use the \code{set_sar_threads} function to set the number of threads to use.
 }
+\examples{
+
+data(ms_usage)
+mod <- sar(ms_usage)
+
+# item recommendations given a vector of user IDs
+users <- unique(ms_usage$user)[1:5]
+user_predict(mod, userdata=users)
+
+# item recommendations given a set of user IDs and transactions (assumed to be new)
+user_df <- subset(ms_usage, user \%in\% users)
+user_predict(mod, userdata=user_df)
+
+# item recomendations for a set of item IDs
+items <- unique(ms_usage$item)[1:5]
+item_predict(mod, items=items)
+
+}
 \seealso{
 \href{https://github.com/Microsoft/Product-Recommendations/blob/master/doc/sar.md#making-recommendations}{Making recommendations} at the \href{https://github.com/Microsoft/Product-Recommendations}{Product Recommendations API repo} on GitHub
 }

@@ -25,6 +25,27 @@
 #'
 #' @return
 #' For `user_predict`, a data frame containing one row per user ID supplied (or if no IDs are supplied, exactly one row).
+#'
+#' @examples
+#'
+#' data(ms_usage)
+#' mod <- sar(ms_usage)
+#'
+#' # item recommendations given a vector of user IDs
+#' users <- unique(ms_usage$user)[1:5]
+#' user_predict(mod, userdata=users)
+#'
+#' # item recommendations given a set of user IDs and transactions (assumed to be new)
+#' user_df <- subset(ms_usage, user %in% users)
+#' user_predict(mod, userdata=user_df)
+#'
+#' # item recomendations for a set of item IDs
+#' items <- unique(ms_usage$item)[1:5]
+#' item_predict(mod, items=items)
+#'
+#' # setting the number of threads to use when computing recommendatins
+#' set_sar_threads(2)
+#'
 #' @rdname user_predict
 #' @export
 user_predict <- function(object, userdata=NULL, k=10, include_seed_items=FALSE, backfill=FALSE, reftime)
