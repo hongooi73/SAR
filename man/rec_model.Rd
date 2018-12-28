@@ -24,7 +24,7 @@ Class representing an individual product recommendations (SAR) model.
 
 \section{Initialization}{
 
-Generally, the easiest way to initialize a new model object is via the \code{get_model()} and \code{create_model()} methods of the \code{rec_endpoint} class, which will handle all the gory details.
+Generally, the easiest way to initialize a new model object is via the \code{get_model()} and \code{train_model()} methods of the \code{rec_endpoint} class, which will handle all the gory details.
 }
 
 \section{Recommendations}{
@@ -44,6 +44,29 @@ These arguments are used for obtaining personalised and item-to-item recommendat
 Both the \code{user_predict()} and \code{item_predict()} methods return a data frame with the top-K recommendations and scores.
 }
 
+\examples{
+\dontrun{
+
+# get a recommender endpoint and previously-trained model
+rec_endp <- rec_endpoint$new("myrecusacvjwpk4raost", admin_key="key1", rec_key="key2")
+rec_model <- rec_endp$get_model("model1")
+
+data(ms_usage)
+
+# item recommendations for a set of user IDs
+users <- unique(ms_usage$user)[1:5]
+rec_model$user_predict(users)
+
+# item recommendations for a set of user IDs and transactions (assumed to be new)
+user_df <- subset(ms_usage, user \%in\% users)
+rec_model$user_predict(user_df)
+
+# item recomendations for a set of item IDs
+items <- unique(ms_usage$item)[1:5]
+rec_model$item_predict(items)
+
+}
+}
 \seealso{
 \link{az_rec_service} for the service backend, \link{rec_endpoint} for the client endpoint
 

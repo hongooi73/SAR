@@ -11,7 +11,7 @@
 #' - `get_model_url()`: Get the individual service URL for this model.
 #'
 #' @section Initialization:
-#' Generally, the easiest way to initialize a new model object is via the `get_model()` and `create_model()` methods of the `rec_endpoint` class, which will handle all the gory details.
+#' Generally, the easiest way to initialize a new model object is via the `get_model()` and `train_model()` methods of the `rec_endpoint` class, which will handle all the gory details.
 #'
 #' @section Recommendations:
 #' These arguments are used for obtaining personalised and item-to-item recommendations.
@@ -29,6 +29,28 @@
 #'
 #' [API reference](https://github.com/Microsoft/Product-Recommendations/blob/master/doc/api-reference.md) and [SAR model description](https://github.com/Microsoft/Product-Recommendations/blob/master/doc/sar.md) at the Product Recommendations API repo on GitHub
 #'
+#' @examples
+#' \dontrun{
+#'
+#' # get a recommender endpoint and previously-trained model
+#' rec_endp <- rec_endpoint$new("myrecusacvjwpk4raost", admin_key="key1", rec_key="key2")
+#' rec_model <- rec_endp$get_model("model1")
+#'
+#' data(ms_usage)
+#'
+#' # item recommendations for a set of user IDs
+#' users <- unique(ms_usage$user)[1:5]
+#' rec_model$user_predict(users)
+#'
+#' # item recommendations for a set of user IDs and transactions (assumed to be new)
+#' user_df <- subset(ms_usage, user %in% users)
+#' rec_model$user_predict(user_df)
+#'
+#' # item recomendations for a set of item IDs
+#' items <- unique(ms_usage$item)[1:5]
+#' rec_model$item_predict(items)
+#'
+#' }
 #' @format An R6 object of class `rec_model`.
 #' @export
 rec_model <- R6Class("rec_model",

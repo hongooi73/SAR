@@ -18,6 +18,7 @@ Class representing an Azure product recommendations service.
 \item \code{start()}: Start the service.
 \item \code{stop()}: Stop the service.
 \item \code{get_rec_endpoint()}: Return an object representing the client endpoint for the service.
+\item \code{set_data_container(data_container="inputdata")}: sets the name of the blob container to use for storing datasets.
 \item \code{delete(confirm=TRUE)}: Delete the service, after checking for confirmation.
 }
 }
@@ -36,6 +37,20 @@ To create a new recommendations service, supply the following additional argumen
 }
 }
 
+\examples{
+\dontrun{
+
+# recommended way of retrieving a resource: via a resource group object
+svc <- resgroup$get_rec_service("myrec")
+
+# start the service backend
+svc$start()
+
+# get the service endpoint
+rec_endp <- svc$get_rec_endpoint()
+
+}
+}
 \seealso{
 \link{rec_endpoint}, for the client interface to the recommendations service
 

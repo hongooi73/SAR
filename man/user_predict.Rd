@@ -64,6 +64,9 @@ user_predict(mod, userdata=user_df)
 items <- unique(ms_usage$item)[1:5]
 item_predict(mod, items=items)
 
+# setting the number of threads to use when computing recommendations
+set_sar_threads(2)
+
 }
 \seealso{
 \href{https://github.com/Microsoft/Product-Recommendations/blob/master/doc/sar.md#making-recommendations}{Making recommendations} at the \href{https://github.com/Microsoft/Product-Recommendations}{Product Recommendations API repo} on GitHub

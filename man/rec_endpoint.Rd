@@ -15,8 +15,9 @@ Class representing the client endpoint to the product recommendations service.
 
 \itemize{
 \item \code{new(...)}: Initialize a client endpoint object. See 'Initialization' for more details.
-\item \code{get_model()}: Get an existing product recommendations model; return an object of class \code{rec_model}.
 \item \code{train_model(...)}: Train a new product recommendations model; return an object of class \code{rec_model}. See \code{Training} for more details.
+\item \code{get_model(description, id)}: Get an existing product recommendations model from either its description or ID; return an object of class \code{rec_model}.
+\item \code{delete_model(description, id)}: Delete the specified model.
 \item \code{upload_data(data, destfile)}: Upload a data frame to the endpoint, as a CSV file. By default, the name of the uploaded file will be the name of the data frame with a ".csv" extension.
 \item \code{upload_csv(srcfile, destfile)}: Upload a CSV file to the endpoint. By default, the name of the uploaded file will be the same as the source file.
 \item \code{sync_model_list()}: Update the stored list of models for this service.
@@ -67,6 +68,33 @@ To train a new model, supply the following arguments to the \code{train_model} m
 For detailed information on these arguments see the \href{https://github.com/Microsoft/Product-Recommendations/blob/master/doc/api-reference.md#train-a-new-model}{API reference}.
 }
 
+\examples{
+\dontrun{
+
+# creating a recommendations service endpoint from an Azure resource
+svc <- resgroup$get_rec_service("myrec")
+rec_endp <- svc$get_rec_endpoint()
+
+# creating the endpoint from scratch -- must supply admin and recommender keys
+rec_endp <- rec_endpoint$new("myrecusacvjwpk4raost", admin_key="key1", rec_key="key2")
+
+# upload the Microsoft store data
+data(ms_usage)
+rec_endp$upload_data(ms_usage)
+
+# train a recommender
+rec_model <- rec_endp$train_model("model1", usage="ms_usage.csv", support_threshold=10,
+    similarity="Jaccard", user_affinity=TRUE, user_to_items=TRUE,
+    backfill=TRUE, include_seed_items=FALSE)
+
+# list of trained models
+rec_endp$sync_model_list()
+
+# delete the trained model (will ask for confirmation)
+rec_endp$delete_model("model1")
+
+}
+}
 \seealso{
 \link{az_rec_service} for the service itself, \link{rec_model} for an individual recommmendations model
 

@@ -8,6 +8,7 @@
 #' - `start()`: Start the service.
 #' - `stop()`: Stop the service.
 #' - `get_rec_endpoint()`: Return an object representing the client endpoint for the service.
+#' - `set_data_container(data_container="inputdata")`: sets the name of the blob container to use for storing datasets.
 #' - `delete(confirm=TRUE)`: Delete the service, after checking for confirmation.
 #'
 #' @section Initialization:
@@ -27,6 +28,19 @@
 #'
 #' [Deployment instructions](https://github.com/Microsoft/Product-Recommendations/blob/master/deploy/README.md) at the Product Recommendations API repo on GitHub
 #'
+#' @examples
+#' \dontrun{
+#'
+#' # recommended way of retrieving a resource: via a resource group object
+#' svc <- resgroup$get_rec_service("myrec")
+#'
+#' # start the service backend
+#' svc$start()
+#'
+#' # get the service endpoint
+#' rec_endp <- svc$get_rec_endpoint()
+#'
+#' }
 #' @format An R6 object of class `az_rec_service`, inheriting from `AzureRMR::az_template`.
 #' @export
 az_rec_service <- R6Class("az_rec_service", inherit=AzureRMR::az_template,

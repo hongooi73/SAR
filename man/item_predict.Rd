@@ -19,3 +19,13 @@ A data frame containing one row per item ID supplied.
 \description{
 Get item-to-item recommendations from a SAR model
 }
+\examples{
+
+data(ms_usage)
+mod <- sar(ms_usage)
+
+# item recomendations for a set of item IDs
+items <- unique(ms_usage$item)[1:5]
+item_predict(mod, items=items)
+
+}

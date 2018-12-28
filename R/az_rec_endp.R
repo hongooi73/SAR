@@ -5,8 +5,9 @@
 #' @docType class
 #' @section Methods:
 #' - `new(...)`: Initialize a client endpoint object. See 'Initialization' for more details.
-#' - `get_model()`: Get an existing product recommendations model; return an object of class `rec_model`.
 #' - `train_model(...)`: Train a new product recommendations model; return an object of class `rec_model`. See `Training` for more details.
+#' - `get_model(description, id)`: Get an existing product recommendations model from either its description or ID; return an object of class `rec_model`.
+#' - `delete_model(description, id)`: Delete the specified model.
 #' - `upload_data(data, destfile)`: Upload a data frame to the endpoint, as a CSV file. By default, the name of the uploaded file will be the name of the data frame with a ".csv" extension.
 #' - `upload_csv(srcfile, destfile)`: Upload a CSV file to the endpoint. By default, the name of the uploaded file will be the same as the source file.
 #' - `sync_model_list()`: Update the stored list of models for this service.
@@ -53,6 +54,32 @@
 #'
 #' [API reference](https://github.com/Microsoft/Product-Recommendations/blob/master/doc/api-reference.md) and [SAR model description](https://github.com/Microsoft/Product-Recommendations/blob/master/doc/sar.md) at the Product Recommendations API repo on GitHub
 #'
+#' @examples
+#' \dontrun{
+#'
+#' # creating a recommendations service endpoint from an Azure resource
+#' svc <- resgroup$get_rec_service("myrec")
+#' rec_endp <- svc$get_rec_endpoint()
+#'
+#' # creating the endpoint from scratch -- must supply admin and recommender keys
+#' rec_endp <- rec_endpoint$new("myrecusacvjwpk4raost", admin_key="key1", rec_key="key2")
+#'
+#' # upload the Microsoft store data
+#' data(ms_usage)
+#' rec_endp$upload_data(ms_usage)
+#'
+#' # train a recommender
+#' rec_model <- rec_endp$train_model("model1", usage="ms_usage.csv", support_threshold=10,
+#'     similarity="Jaccard", user_affinity=TRUE, user_to_items=TRUE,
+#'     backfill=TRUE, include_seed_items=FALSE)
+#'
+#' # list of trained models
+#' rec_endp$sync_model_list()
+#'
+#' # delete the trained model (will ask for confirmation)
+#' rec_endp$delete_model("model1")
+#'
+#' }
 #' @format An R6 object of class `rec_endpoint`.
 #' @export
 rec_endpoint <- R6Class("rec_endpoint",

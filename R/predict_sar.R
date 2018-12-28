@@ -43,10 +43,9 @@
 #' items <- unique(ms_usage$item)[1:5]
 #' item_predict(mod, items=items)
 #'
-#' # setting the number of threads to use when computing recommendatins
+#' # setting the number of threads to use when computing recommendations
 #' set_sar_threads(2)
 #'
-#' @rdname user_predict
 #' @export
 user_predict <- function(object, userdata=NULL, k=10, include_seed_items=FALSE, backfill=FALSE, reftime)
 {
@@ -158,6 +157,16 @@ user_predict <- function(object, userdata=NULL, k=10, include_seed_items=FALSE, 
 #' @param k The number of recommendations to obtain.
 #' @return
 #' A data frame containing one row per item ID supplied.
+#'
+#' @examples
+#'
+#' data(ms_usage)
+#' mod <- sar(ms_usage)
+#'
+#' # item recomendations for a set of item IDs
+#' items <- unique(ms_usage$item)[1:5]
+#' item_predict(mod, items=items)
+#'
 #' @export
 item_predict <- function(object, items, k=10)
 {
