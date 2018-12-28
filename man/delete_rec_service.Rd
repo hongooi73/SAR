@@ -25,6 +25,19 @@ Method for the \link[AzureRMR:az_resource_group]{AzureRMR::az_resource_group} an
 NULL on successful deletion.
 }
 
+\examples{
+\dontrun{
+
+rg <- AzureRMR::az_rm$
+    new(tenant="myaadtenant.onmicrosoft.com", app="app_id", password="password")$
+    get_subscription("subscription_id")$
+    get_resource_group("rgname")
+
+# delete a recommender service
+rg$delete_rec_service("myrec")
+
+}
+}
 \seealso{
 \link{create_rec_service}, \link{delete_rec_service}
 }

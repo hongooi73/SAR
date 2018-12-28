@@ -75,8 +75,9 @@ For detailed information on these arguments see the \href{https://github.com/Mic
 svc <- resgroup$get_rec_service("myrec")
 rec_endp <- svc$get_rec_endpoint()
 
-# creating the endpoint from scratch -- must supply admin and recommender keys
-rec_endp <- rec_endpoint$new("myrecusacvjwpk4raost", admin_key="key1", rec_key="key2")
+# creating the endpoint from scratch -- must supply admin, recommender and storage keys
+rec_endp <- rec_endpoint$new("myrecusacvjwpk4raost",
+    admin_key="key1", rec_key="key2", storage_key="key3")
 
 # upload the Microsoft store data
 data(ms_usage)

@@ -7,7 +7,13 @@
 Method for the \link[AzureRMR:az_resource_group]{AzureRMR::az_resource_group} and \link[AzureRMR:az_subscription]{AzureRMR::az_subscription} classes.
 }
 \section{Usage}{
-\preformatted{create_rec_service(name, location, hosting_plan, storage_type = c("Standard_LRS", "Standard_GRS"),
+\preformatted{## R6 method for class 'az_subscription'
+create_rec_service(name, location, hosting_plan, storage_type = c("Standard_LRS", "Standard_GRS"),
+                   insights_location = c("East US", "North Europe", "West Europe", "South Central US"),
+                   data_container = "inputdata", ..., wait = TRUE
+
+## R6 method for class 'az_resource_group'
+create_rec_service(name, hosting_plan, storage_type = c("Standard_LRS", "Standard_GRS"),
                    insights_location = c("East US", "North Europe", "West Europe", "South Central US"),
                    data_container = "inputdata", ..., wait = TRUE
 }
@@ -17,7 +23,7 @@ Method for the \link[AzureRMR:az_resource_group]{AzureRMR::az_resource_group} an
 
 \itemize{
 \item \code{name}: The name of the recommender service.
-\item \code{location}: The location/region for the service. For the az_resource_group method, defaults to the location of the resource group.
+\item \code{location}: For the subscription method, the location/region for the service. For the resource group method, this is taken from the location of the resource group.
 \item \code{storage_type}: The replication strategy for the storage account for the service.
 \item \code{insights_location}: Location for the application insights service giving you details on the webapp usage.
 \item \code{data_container}: The name of the blob container within the storage account to use for storing datasets.
@@ -38,6 +44,19 @@ For the az_subscription method, a resource group is also created to hold the res
 An object of class \code{az_rec_service} representing the deployed recommender service.
 }
 
+\examples{
+\dontrun{
+
+rg <- AzureRMR::az_rm$
+    new(tenant="myaadtenant.onmicrosoft.com", app="app_id", password="password")$
+    get_subscription("subscription_id")$
+    get_resource_group("rgname")
+
+# create a new recommender service
+rg$create_rec_service("myrec", hosting_plan="S2")
+
+}
+}
 \seealso{
 \link{get_rec_service}, \link{delete_rec_service}.
 

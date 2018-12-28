@@ -24,6 +24,19 @@ Method for the \link[AzureRMR:az_resource_group]{AzureRMR::az_resource_group} an
 An object of class \code{az_rec_service} representing the deployed recommender service.
 }
 
+\examples{
+\dontrun{
+
+rg <- AzureRMR::az_rm$
+    new(tenant="myaadtenant.onmicrosoft.com", app="app_id", password="password")$
+    get_subscription("subscription_id")$
+    get_resource_group("rgname")
+
+# get a recommender service
+rg$get_rec_service("myrec")
+
+}
+}
 \seealso{
 \link{create_rec_service}, \link{delete_rec_service}
 }

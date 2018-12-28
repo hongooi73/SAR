@@ -7,13 +7,19 @@
 #' @aliases create_rec_service
 #' @section Usage:
 #' ```
+#' ## R6 method for class 'az_subscription'
 #' create_rec_service(name, location, hosting_plan, storage_type = c("Standard_LRS", "Standard_GRS"),
+#'                    insights_location = c("East US", "North Europe", "West Europe", "South Central US"),
+#'                    data_container = "inputdata", ..., wait = TRUE
+#'
+#' ## R6 method for class 'az_resource_group'
+#' create_rec_service(name, hosting_plan, storage_type = c("Standard_LRS", "Standard_GRS"),
 #'                    insights_location = c("East US", "North Europe", "West Europe", "South Central US"),
 #'                    data_container = "inputdata", ..., wait = TRUE
 #' ```
 #' @section Arguments:
 #' - `name`: The name of the recommender service.
-#' - `location`: The location/region for the service. For the az_resource_group method, defaults to the location of the resource group.
+#' - `location`: For the subscription method, the location/region for the service. For the resource group method, this is taken from the location of the resource group.
 #' - `storage_type`: The replication strategy for the storage account for the service.
 #' - `insights_location`: Location for the application insights service giving you details on the webapp usage.
 #' - `data_container`: The name of the blob container within the storage account to use for storing datasets.
@@ -32,6 +38,19 @@
 #' [get_rec_service], [delete_rec_service].
 #'
 #' The architecture for the web service is documented [here](https://github.com/Microsoft/Product-Recommendations/blob/master/doc/architecture.md), and the specific template deployed by this method is [here](https://raw.githubusercontent.com/Microsoft/Product-Recommendations/master/saw/recommendationswebapp/core/arm/resources.json).
+#'
+#' @examples
+#' \dontrun{
+#'
+#' rg <- AzureRMR::az_rm$
+#'     new(tenant="myaadtenant.onmicrosoft.com", app="app_id", password="password")$
+#'     get_subscription("subscription_id")$
+#'     get_resource_group("rgname")
+#' 
+#' # create a new recommender service
+#' rg$create_rec_service("myrec", hosting_plan="S2")
+#' 
+#' }
 NULL
 
 
@@ -55,6 +74,19 @@ NULL
 #'
 #' @seealso
 #' [create_rec_service], [delete_rec_service]
+#'
+#' @examples
+#' \dontrun{
+#'
+#' rg <- AzureRMR::az_rm$
+#'     new(tenant="myaadtenant.onmicrosoft.com", app="app_id", password="password")$
+#'     get_subscription("subscription_id")$
+#'     get_resource_group("rgname")
+#' 
+#' # get a recommender service
+#' rg$get_rec_service("myrec")
+#' 
+#' }
 NULL
 
 
@@ -79,6 +111,19 @@ NULL
 #'
 #' @seealso
 #' [create_rec_service], [delete_rec_service]
+#'
+#' @examples
+#' \dontrun{
+#'
+#' rg <- AzureRMR::az_rm$
+#'     new(tenant="myaadtenant.onmicrosoft.com", app="app_id", password="password")$
+#'     get_subscription("subscription_id")$
+#'     get_resource_group("rgname")
+#' 
+#' # delete a recommender service
+#' rg$delete_rec_service("myrec")
+#' 
+#' }
 NULL
 
 
