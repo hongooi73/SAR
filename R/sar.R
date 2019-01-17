@@ -201,11 +201,12 @@ get_cold_similarity <- function(cold_item_model=NULL, sim_matrix, catalog_formul
 # grouping internal structure changes for dplyr 0.8
 group_list <- function(grpdf)
 {
-    if(packageVersion("dplyr") < package_version("0.8.0"))
+    if(utils::packageVersion("dplyr") < package_version("0.8.0"))
         attr(grpdf, "indices")
     else
     {
-        lst <- dplyr::group_rows(grpdf)
+        group_rows <- get("group_rows", getNamespace("dplyr"))
+        lst <- group_rows(grpdf)
         lapply(lst, function(x) x - 1)
     }
 }
