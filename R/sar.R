@@ -145,7 +145,7 @@ make_similarity <- function(user, item, time, support_threshold, by_user, simila
 
     # call out to C++ to compute actual matrix: 2 order of magnitude speedup
     sim_matrix <- make_similarity_matrix_sp(nlevels(item),
-                                            attr(dplyr::group_by(dat, !!!grps), "indices"),
+                                            group_list(dplyr::group_by(dat, !!!grps)),
                                             item)
 
     # record popular items -- used for backfilling
@@ -198,3 +198,14 @@ get_cold_similarity <- function(cold_item_model=NULL, sim_matrix, catalog_formul
 }
 
 
+# grouping internal structure changes for dplyr 0.8
+group_list <- function(grpdf)
+{
+    if(packageVersion("dplyr") < package_version("0.8.0"))
+        attr(grpdf, "indices")
+    else
+    {
+        lst <- dplyr::group_rows(grpdf)
+        lapply(lst, function(x) x - 1)
+    }
+}
