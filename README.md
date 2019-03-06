@@ -11,3 +11,9 @@ This package provides the following:
 ## More information
 
 [A detailed description of SAR](https://github.com/Microsoft/Product-Recommendations/blob/master/doc/sar.md)
+
+Other SAR implementations:
+
+- Python: [Microsoft/Recommenders](https://github.com/Microsoft/Recommenders)
+- Spark: [Azure/mmlspark](https://github.com/Azure/mmlspark)
+
