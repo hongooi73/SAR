@@ -101,7 +101,7 @@ sar.default <- function(user, item, time, event=NULL, weight=NULL, support_thres
     attr(sim_mat, "pop_items") <- NULL
 
     if(!is.null(catalog_data))
-        sim_matrix <- get_cold_similarity(cold_item_model, sim_mat, catalog_formula, catalog_data, cold_to_cold,
+        sim_mat <- get_cold_similarity(cold_item_model, sim_mat, catalog_formula, catalog_data, cold_to_cold,
                                           similarity, ...)
 
     out <- list(sim_mat=sim_mat, pop_items=pop_items,
