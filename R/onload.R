@@ -176,15 +176,6 @@ add_sar_methods <- function()
         self$get_rec_service(name, NULL)$delete(confirm=confirm, free_resources=free_resources)
     })
 
-    az_resource_group$set("public", "get_rec_endpoint", overwrite=TRUE,
-    function(name, admin_key, rec_key, service_host="azurewebsites.net",
-             storage_key=NULL, storage_sas=NULL, storage_host="core.windows.net",
-             storage_endpoint=NULL)
-    {
-        SAR::az_rec_endpoint$new(name, admin_key, rec_key, service_host,
-                            storage_key, storage_sas, storage_host, storage_endpoint)
-    })
-
     ## add class methods to subscription
 
     az_subscription$set("public", "create_rec_service", overwrite=TRUE,

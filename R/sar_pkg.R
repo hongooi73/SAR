@@ -13,4 +13,4 @@ NULL
 #' @import AzureStor
 NULL
 
-globalVariables(c("self", "az_rec_endpoint", "warm_item", "cold_item"), "SAR")
+globalVariables(c("self", "warm_item", "cold_item"), "SAR")
