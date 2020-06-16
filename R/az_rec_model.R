@@ -289,7 +289,7 @@ private=list(
         res
     },
 
-    model_op=function(op="", ..., options=list(), headers=list(), 
+    model_op=function(op="", ..., options=list(), headers=list(),
                       key=self$admin_key,
                       http_verb=c("GET", "PUT", "POST", "DELETE", "HEAD"))
     {

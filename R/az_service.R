@@ -13,7 +13,7 @@
 #'
 #' @section Initialization:
 #' Generally, the easiest way to initialize a new recommendations service object is via the `create_rec_service` or `get_rec_service` methods of the [az_subscription] or [az_resource_group] classes.
-#' 
+#'
 #' To create a new recommendations service, supply the following additional arguments to `new()`:
 #' - `hosting_plan`: The name of the hosting plan (essentially the size of the virtual machine on which to run the service). See below for the plans that are available.
 #' - `storage_type`: The type of storage account to use. Can be `"Standard_LRS"` or `"Standard_GRS"`.

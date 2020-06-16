@@ -4,7 +4,7 @@
 #' - `user`: The user ID.
 #' - `item`: The item ID, corresponding to the items in the [ms_catalog] dataset.
 #' - `time`: The date and time of the transaction, in POSIXct format.
-#' 
+#'
 #' @source Microsoft.
 #' @seealso
 #' [ms_catalog]

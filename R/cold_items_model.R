@@ -25,7 +25,7 @@ get_cold_similarity_model <- function(sim_matrix, catalog_formula, catalog_data,
     y <- as.numeric(sim_matrix[pairs])
     if(similarity == "jaccard")
         y <- logit(y)
-    
+
     all_items <- rownames(sim_matrix)
     catalog_formula <- update(catalog_formula, y ~ .)
 
@@ -79,7 +79,7 @@ expit <- function(x)
 cold_model_sample <- function(sim_matrix)
 {
     pairs <- which(sim_matrix != 0, arr.ind=TRUE)
-    pairs <- pairs[pairs[, 1] > pairs[, 2],] # lower triangular portion only
+    pairs <- pairs[pairs[, 1] > pairs[, 2], ] # lower triangular portion only
 
     warm <- which(diag(sim_matrix) != 0)
     n <- nrow(sim_matrix)
@@ -97,8 +97,8 @@ cold_model_sample <- function(sim_matrix)
     {
         # TODO: make more scalable
         cold_pairs <- which(sim_matrix == 0, arr.ind=TRUE)
-        cold_pairs <- cold_pairs[cold_pairs[, 1] > cold_pairs[, 2],]
-        cold_pairs <- cold_pairs[sample(nrow(cold_pairs), n_warm),] # sample of same size as #warm pairs
+        cold_pairs <- cold_pairs[cold_pairs[, 1] > cold_pairs[, 2], ]
+        cold_pairs <- cold_pairs[sample(nrow(cold_pairs), n_warm), ] # sample of same size as #warm pairs
         pairs <- rbind(pairs, cold_pairs)
     }
     pairs

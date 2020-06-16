@@ -46,10 +46,10 @@
 #'     new(tenant="myaadtenant.onmicrosoft.com", app="app_id", password="password")$
 #'     get_subscription("subscription_id")$
 #'     get_resource_group("rgname")
-#' 
+#'
 #' # create a new recommender service
 #' rg$create_rec_service("myrec", hosting_plan="S2")
-#' 
+#'
 #' }
 NULL
 
@@ -82,10 +82,10 @@ NULL
 #'     new(tenant="myaadtenant.onmicrosoft.com", app="app_id", password="password")$
 #'     get_subscription("subscription_id")$
 #'     get_resource_group("rgname")
-#' 
+#'
 #' # get a recommender service
 #' rg$get_rec_service("myrec")
-#' 
+#'
 #' }
 NULL
 
@@ -119,10 +119,10 @@ NULL
 #'     new(tenant="myaadtenant.onmicrosoft.com", app="app_id", password="password")$
 #'     get_subscription("subscription_id")$
 #'     get_resource_group("rgname")
-#' 
+#'
 #' # delete a recommender service
 #' rg$delete_rec_service("myrec")
-#' 
+#'
 #' }
 NULL
 

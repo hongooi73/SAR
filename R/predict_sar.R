@@ -143,7 +143,7 @@ user_predict <- function(object, userdata=NULL, k=10, include_seed_items=FALSE, 
     else
     {
         out <- cbind.data.frame(user=colnames(aff), recs[[2]], recs[[1]], stringsAsFactors=FALSE)
-        out <- out[match(unique(user), out$user, nomatch=0),]
+        out <- out[match(unique(user), out$user, nomatch=0), ]
         row.names(out) <- NULL
         out
     }
@@ -173,7 +173,7 @@ item_predict <- function(object, items, k=10)
     if(is.data.frame(items))
         items <- as.character(items$items)
     else items <- as.character(items)
-    item_sim <- object$sim_mat[items,, drop=FALSE]
+    item_sim <- object$sim_mat[items, , drop=FALSE]
 
     ord <- apply(item_sim, 1, function(x)
     {
