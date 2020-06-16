@@ -1,10 +1,12 @@
 #' Sample usage dataset
 #'
-#' A data frame of anonymised transaction records from the Microsoft online store. The variables are:
-#' - `user`: The user ID.
-#' - `item`: The item ID, corresponding to the items in the [ms_catalog] dataset.
-#' - `time`: The date and time of the transaction, in POSIXct format.
-#'
+#' Dataset of anonymised transaction records from the Microsoft online store.
+#' @format A data frame with the following variables:
+#' \describe{
+#'  \item{user}{The user ID.}
+#'  \item{item}{The item ID, corresponding to the items in the [ms_catalog] dataset.}
+#'  \item{time}{The date and time of the transaction, in POSIXct format.}
+#' }
 #' @source Microsoft.
 #' @seealso
 #' [ms_catalog]
@@ -13,11 +15,13 @@
 
 #' Sample catalog dataset
 #'
-#' A data frame containing a sample of item descriptions from the Microsoft online store. The variables are:
-#' - `item`: The item ID, corresponding to the items in the [ms_usage] dataset.
-#' - `name`: A short description of the item.
-#' - `category`: The item category.
-#'
+#' Dataset of item descriptions from the Microsoft online store.
+#' @format A data frame with the following variables:
+#' \describe{
+#'  \item{item}{The item ID, corresponding to the items in the [ms_usage] dataset.}
+#'  \item{name}{A short description of the item.}
+#'  \item{category}{The item category.}
+#' }
 #' @source Microsoft.
 #' @seealso
 #' [ms_usage]
