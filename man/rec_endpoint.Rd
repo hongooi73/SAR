@@ -4,9 +4,8 @@
 \name{rec_endpoint}
 \alias{rec_endpoint}
 \title{Azure product recommendations endpoint class}
-\format{An R6 object of class \code{rec_endpoint}.}
-\usage{
-rec_endpoint
+\format{
+An R6 object of class \code{rec_endpoint}.
 }
 \description{
 Class representing the client endpoint to the product recommendations service.
@@ -101,4 +100,3 @@ rec_endp$delete_model("model1")
 
 \href{https://github.com/Microsoft/Product-Recommendations/blob/master/doc/api-reference.md}{API reference} and \href{https://github.com/Microsoft/Product-Recommendations/blob/master/doc/sar.md}{SAR model description} at the Product Recommendations API repo on GitHub
 }
-\keyword{datasets}

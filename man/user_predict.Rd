@@ -5,8 +5,14 @@
 \alias{set_sar_threads}
 \title{Get personalised recommendations from a SAR model}
 \usage{
-user_predict(object, userdata = NULL, k = 10,
-  include_seed_items = FALSE, backfill = FALSE, reftime)
+user_predict(
+  object,
+  userdata = NULL,
+  k = 10,
+  include_seed_items = FALSE,
+  backfill = FALSE,
+  reftime
+)
 
 set_sar_threads(n_threads)
 }

@@ -4,7 +4,9 @@
 \name{ms_catalog}
 \alias{ms_catalog}
 \title{Sample catalog dataset}
-\format{An object of class \code{data.frame} with 101 rows and 3 columns.}
+\format{
+An object of class \code{data.frame} with 101 rows and 3 columns.
+}
 \source{
 Microsoft.
 }

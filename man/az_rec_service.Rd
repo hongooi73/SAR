@@ -4,9 +4,8 @@
 \name{az_rec_service}
 \alias{az_rec_service}
 \title{Azure product recommendations service class}
-\format{An R6 object of class \code{az_rec_service}, inheriting from \code{AzureRMR::az_template}.}
-\usage{
-az_rec_service
+\format{
+An R6 object of class \code{az_rec_service}, inheriting from \code{AzureRMR::az_template}.
 }
 \description{
 Class representing an Azure product recommendations service.
@@ -58,4 +57,3 @@ rec_endp <- svc$get_rec_endpoint()
 
 \href{https://github.com/Microsoft/Product-Recommendations/blob/master/deploy/README.md}{Deployment instructions} at the Product Recommendations API repo on GitHub
 }
-\keyword{datasets}

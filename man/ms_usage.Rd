@@ -4,7 +4,9 @@
 \name{ms_usage}
 \alias{ms_usage}
 \title{Sample usage dataset}
-\format{An object of class \code{data.frame} with 11838 rows and 3 columns.}
+\format{
+An object of class \code{data.frame} with 11838 rows and 3 columns.
+}
 \source{
 Microsoft.
 }

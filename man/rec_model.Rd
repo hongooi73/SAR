@@ -4,9 +4,8 @@
 \name{rec_model}
 \alias{rec_model}
 \title{Azure product recommendations model class}
-\format{An R6 object of class \code{rec_model}.}
-\usage{
-rec_model
+\format{
+An R6 object of class \code{rec_model}.
 }
 \description{
 Class representing an individual product recommendations (SAR) model.
@@ -72,4 +71,3 @@ rec_model$item_predict(items)
 
 \href{https://github.com/Microsoft/Product-Recommendations/blob/master/doc/api-reference.md}{API reference} and \href{https://github.com/Microsoft/Product-Recommendations/blob/master/doc/sar.md}{SAR model description} at the Product Recommendations API repo on GitHub
 }
-\keyword{datasets}

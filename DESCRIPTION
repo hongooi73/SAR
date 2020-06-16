@@ -29,5 +29,5 @@ LinkingTo: Rcpp,
     RcppArmadillo,
     RcppParallel
 SystemRequirements: GNU make
-Roxygen: list(markdown=TRUE)
-RoxygenNote: 6.1.1
+Roxygen: list(markdown=TRUE, r6=FALSE)
+RoxygenNote: 7.1.0
