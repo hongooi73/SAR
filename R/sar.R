@@ -40,7 +40,7 @@
 #' [Description of SAR](https://github.com/Microsoft/Product-Recommendations/blob/master/doc/sar.md) at the [Product Recommendations API repo](https://github.com/Microsoft/Product-Recommendations) on GitHub
 #'
 #' @examples
-#' 
+#'
 #' data(ms_usage)
 #'
 #' ## all of these fit the same model:
@@ -137,15 +137,15 @@ print.sar <- function(x, ...)
 
 make_similarity <- function(user, item, time, support_threshold, by_user, similarity)
 {
-    dat <- dplyr::data_frame(user, item, time)
-    
+    dat <- dplyr::tibble(user, item, time)
+
     grps <- if(by_user)
         dplyr::quo(user)
     else c(dplyr::quo(user), dplyr::quo(time))
 
     # call out to C++ to compute actual matrix: 2 order of magnitude speedup
     sim_matrix <- make_similarity_matrix_sp(nlevels(item),
-                                            group_list(dplyr::group_by(dat, !!!grps)),
+                                            group_list(dplyr::group_by(dat, !!grps)),
                                             item)
 
     # record popular items -- used for backfilling
