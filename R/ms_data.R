@@ -1,7 +1,7 @@
 #' Sample usage dataset
 #'
 #' Dataset of anonymised transaction records from the Microsoft online store.
-#' @format A data frame with the following variables:
+#' @format A data frame with 118383 rows and 3 columns.
 #' \describe{
 #'  \item{user}{The user ID.}
 #'  \item{item}{The item ID, corresponding to the items in the [ms_catalog] dataset.}
@@ -16,7 +16,7 @@
 #' Sample catalog dataset
 #'
 #' Dataset of item descriptions from the Microsoft online store.
-#' @format A data frame with the following variables:
+#' @format A data frame with 101 rows and 3 columns.
 #' \describe{
 #'  \item{item}{The item ID, corresponding to the items in the [ms_usage] dataset.}
 #'  \item{name}{A short description of the item.}

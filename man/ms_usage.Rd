@@ -5,7 +5,7 @@
 \alias{ms_usage}
 \title{Sample usage dataset}
 \format{
-A data frame with the following variables:
+A data frame with 118383 rows and 3 columns.
 \describe{
 \item{user}{The user ID.}
 \item{item}{The item ID, corresponding to the items in the \link{ms_catalog} dataset.}
@@ -20,5 +20,8 @@ ms_usage
 }
 \description{
 Dataset of anonymised transaction records from the Microsoft online store.
+}
+\seealso{
+\link{ms_catalog}
 }
 \keyword{datasets}

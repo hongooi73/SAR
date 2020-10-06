@@ -5,7 +5,7 @@
 \alias{ms_catalog}
 \title{Sample catalog dataset}
 \format{
-A data frame with the following variables:
+A data frame with 101 rows and 3 columns.
 \describe{
 \item{item}{The item ID, corresponding to the items in the \link{ms_usage} dataset.}
 \item{name}{A short description of the item.}
@@ -20,5 +20,8 @@ ms_catalog
 }
 \description{
 Dataset of item descriptions from the Microsoft online store.
+}
+\seealso{
+\link{ms_usage}
 }
 \keyword{datasets}
