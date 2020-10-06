@@ -29,5 +29,6 @@ LinkingTo: Rcpp,
     RcppArmadillo,
     RcppParallel
 SystemRequirements: GNU make
+LazyData: true
 Roxygen: list(markdown=TRUE, r6=FALSE)
 RoxygenNote: 7.1.1
