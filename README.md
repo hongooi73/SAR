@@ -4,7 +4,7 @@
 
 This package provides the following:
 
-- An R interface to the Azure [Product Recommendations](https://github.com/Microsoft/Product-Recommendations) service, a cloud implementation of SAR. It includes the ability to deploy the backend via the [AzureRMR](https://github.com/AzureR/AzureRMR) package, as well as a client frontend.
+- An R interface to the Azure [Product Recommendations](https://github.com/Microsoft/Product-Recommendations) service, a cloud implementation of SAR. It includes the ability to deploy the backend via the [AzureRMR](https://github.com/Azure/AzureRMR) package, as well as a client frontend.
 
 - A standalone R implementation of SAR, for ease of experimentation and familiarisation. The core algorithm is written in C++ and makes use of multithreading and sparse matrices for speed and efficiency.
 
