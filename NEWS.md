@@ -1,3 +1,7 @@
+# SAR 1.0.3
+
+* Update maintainer email address.
+
 # SAR 1.0.2
 
 * Compatibility update for rlang/tibble changes.
