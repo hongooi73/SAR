@@ -1,8 +1,8 @@
 Package: SAR
 Title: Smart Adaptive Recommendations
-Version: 1.0.2
+Version: 1.0.3
 Authors@R: c(
-    person("Hong", "Ooi", , "hongooi@microsoft.com", role = c("aut", "cre")),
+    person("Hong", "Ooi", , "hongooi73@gmail.com", role = c("aut", "cre")),
     person("Microsoft Product Recommendations team", role = "ctb", comment="source for MS sample datasets"),
     person("Microsoft", role="cph")
     )
