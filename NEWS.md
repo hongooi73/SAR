@@ -1,3 +1,7 @@
+# SAR 1.0.4
+
+* Fix web links for CRAN
+
 # SAR 1.0.3
 
 * Update maintainer email address.

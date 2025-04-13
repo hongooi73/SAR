@@ -14,6 +14,6 @@ This package provides the following:
 
 Other SAR implementations:
 
-- Python: [Microsoft/Recommenders](https://github.com/Microsoft/Recommenders)
-- Spark: [Azure/mmlspark](https://github.com/Azure/mmlspark)
+- Python: [Recommenders-Team/recommenders](https://github.com/recommenders-team/recommenders)
+- Spark: [Microsoft/SynapseML](https://github.com/microsoft/SynapseML)
 

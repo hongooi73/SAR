@@ -7,7 +7,9 @@
 Method for the \link[AzureRMR:az_resource_group]{AzureRMR::az_resource_group} and \link[AzureRMR:az_subscription]{AzureRMR::az_subscription} classes.
 }
 \section{Usage}{
-\preformatted{## R6 method for class 'az_subscription'
+
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## R6 method for class 'az_subscription'
 create_rec_service(name, location, hosting_plan, storage_type = c("Standard_LRS", "Standard_GRS"),
                    insights_location = c("East US", "North Europe", "West Europe", "South Central US"),
                    data_container = "inputdata", ..., wait = TRUE
@@ -16,7 +18,7 @@ create_rec_service(name, location, hosting_plan, storage_type = c("Standard_LRS"
 create_rec_service(name, hosting_plan, storage_type = c("Standard_LRS", "Standard_GRS"),
                    insights_location = c("East US", "North Europe", "West Europe", "South Central US"),
                    data_container = "inputdata", ..., wait = TRUE
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Arguments}{
@@ -28,7 +30,7 @@ create_rec_service(name, hosting_plan, storage_type = c("Standard_LRS", "Standar
 \item \code{insights_location}: Location for the application insights service giving you details on the webapp usage.
 \item \code{data_container}: The name of the blob container within the storage account to use for storing datasets.
 \item \code{wait}: Whether to wait until the service has finished provisioning.
-\item \code{...} : Other named arguments to pass to the \link{az_template} initialization function.
+\item \code{...} : Other named arguments to pass to the \link[AzureRMR:az_template]{AzureRMR::az_template} initialization function.
 }
 }
 

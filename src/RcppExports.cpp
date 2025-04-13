@@ -6,6 +6,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // make_similarity_matrix_sp
 arma::sp_mat make_similarity_matrix_sp(int n_items, List groups, IntegerVector items);
 RcppExport SEXP _SAR_make_similarity_matrix_sp(SEXP n_itemsSEXP, SEXP groupsSEXP, SEXP itemsSEXP) {

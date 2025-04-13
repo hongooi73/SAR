@@ -24,7 +24,7 @@ Class representing an Azure product recommendations service.
 
 \section{Initialization}{
 
-Generally, the easiest way to initialize a new recommendations service object is via the \code{create_rec_service} or \code{get_rec_service} methods of the \link{az_subscription} or \link{az_resource_group} classes.
+Generally, the easiest way to initialize a new recommendations service object is via the \code{create_rec_service} or \code{get_rec_service} methods of the \link[AzureRMR:az_subscription]{AzureRMR::az_subscription} or \link[AzureRMR:az_resource_group]{AzureRMR::az_resource_group} classes.
 
 To create a new recommendations service, supply the following additional arguments to \code{new()}:
 \itemize{

@@ -24,7 +24,7 @@
 #' - `insights_location`: Location for the application insights service giving you details on the webapp usage.
 #' - `data_container`: The name of the blob container within the storage account to use for storing datasets.
 #' - `wait`: Whether to wait until the service has finished provisioning.
-#' - `...` : Other named arguments to pass to the [az_template] initialization function.
+#' - `...` : Other named arguments to pass to the [AzureRMR::az_template] initialization function.
 #'
 #' @section Details:
 #' This method deploys a new recommender service. The individual resources created are an Azure webapp, a storage account, and an application insights service for monitoring. Within the storage account, a blob container is created with name given by the `data_container` argument for storing input datasets.

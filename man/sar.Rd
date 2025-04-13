@@ -27,8 +27,8 @@ sar(...)
   weight = NULL,
   support_threshold = 1,
   allowed_items = NULL,
-  allowed_events = c(Click = 1, RecommendationClick = 2, AddShopCart = 3,
-    RemoveShopCart = -1, Purchase = 4),
+  allowed_events = c(Click = 1, RecommendationClick = 2, AddShopCart = 3, RemoveShopCart
+    = -1, Purchase = 4),
   by_user = TRUE,
   similarity = c("jaccard", "lift", "count"),
   half_life = 30,

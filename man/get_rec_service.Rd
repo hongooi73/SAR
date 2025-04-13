@@ -7,8 +7,10 @@
 Method for the \link[AzureRMR:az_resource_group]{AzureRMR::az_resource_group} and \link[AzureRMR:az_subscription]{AzureRMR::az_subscription} classes.
 }
 \section{Usage}{
-\preformatted{get_rec_service(name, data_container = "inputdata")
-}
+
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{get_rec_service(name, data_container = "inputdata")
+}\if{html}{\out{</div>}}
 }
 
 \section{Arguments}{

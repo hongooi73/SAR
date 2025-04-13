@@ -7,8 +7,10 @@
 Method for the \link[AzureRMR:az_resource_group]{AzureRMR::az_resource_group} and \link[AzureRMR:az_subscription]{AzureRMR::az_subscription} classes.
 }
 \section{Usage}{
-\preformatted{delete_rec_service(name, confirm = TRUE, free_resources = TRUE)
-}
+
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{delete_rec_service(name, confirm = TRUE, free_resources = TRUE)
+}\if{html}{\out{</div>}}
 }
 
 \section{Arguments}{
